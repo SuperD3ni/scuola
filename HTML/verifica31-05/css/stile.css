@@ -1,0 +1,59 @@
+body{
+    background-color: rgb(203, 255, 249);
+    
+}
+section{
+    display:flex;
+    justify-content: space-around;
+    background-color: rgb(255, 255, 255);
+    width: 90vw;
+    height: 80vh;
+}
+div{
+    width: 20vw;
+    height: 40vh;
+    background-color: rgb(203, 255, 249);
+    margin-top: 5%;
+    padding:10px;
+    color:aliceblue;
+    line-height: 34px;
+    font-size: 34px;
+    text-align: center;
+}
+#s1{
+    display: inline;
+    text-align: center;
+}
+input{
+    height: 30px;
+    width: 300px;
+    border-radius: 5px;
+    border: 0px;
+}
+button{
+    border-radius: 5px;
+    border: 0px;
+    background-color: rgb(90, 90, 254);
+    color: white;
+    height: 35px;
+    width: 70px;
+}
+#s2{
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    padding: 30px;
+}
+.lettere{
+    background-color: rgb(100, 170, 232);
+    text-align: center;
+    width: 26px;
+    height: 26px;
+}
+#punti{
+    background-color: rgb(155, 203, 245);
+    text-align: center;
+    width: 150px;
+    height: 30px;
+    color: white;
+}

@@ -1,0 +1,70 @@
+body{
+    background-color: rgb(213, 213, 213);
+    display:flex;
+    justify-content: center;
+}
+section{
+    display:flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    background-color: rgb(213, 213, 213);
+    width: 400px;
+    height: 1000px;
+}
+div{
+    width: 20vw;
+    height: 40vh;
+    background-color: rgb(154, 144, 135);
+    margin-top: 5%;
+    color:white;
+    line-height: 34px;
+    font-size: 34px;
+    text-align: center;
+    border-radius: 2%;
+}
+#tasti{
+    display: flex;
+    justify-content: space-around;
+    background-color: transparent;
+    width: 200px;
+}
+.direzioni{
+    width: 50px;
+    height: 50px;
+    background-color: rgb(154, 144, 135);
+    text-align: center;
+    font-size: x-large;
+    border: 0px;
+    color: white;
+}
+#gioco{
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    width: 330px;
+    height: 350px;
+    padding: 10px;
+}
+.numeri{
+    width: 50px;
+    height: 50px;
+    padding: 10px;
+    background-color: rgb(192, 179, 168);
+    border-radius: 4%;
+    font-family: Arial, Helvetica, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+#vinto{
+    background-color: transparent;
+    color: rgb(119, 110, 101);
+    font-family: Arial, Helvetica, sans-serif;
+}
+#titolo{
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: x-large;
+    padding: 5px;
+    width: 330px;
+    height: 310px;
+}

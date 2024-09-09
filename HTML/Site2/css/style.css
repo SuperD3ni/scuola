@@ -1,0 +1,27 @@
+h1 {
+    text-align: center;
+}
+
+#tit {
+    text-align: center;
+}
+
+nav {
+    text-align: center;
+    background-color: whitesmoke;
+    padding: 20px 0px;
+    border-top: 3px double rgb(87, 202, 202);
+    border-bottom: 3px double rgb(87, 202, 202);
+}
+
+li {
+    display: inline;
+    margin: 0px 150px;
+}
+
+.a {
+    display: flex;
+    justify-content: space-between;
+    background-color: rgb(172, 255, 255);
+    margin: 100px 700px 100px 700px;
+}

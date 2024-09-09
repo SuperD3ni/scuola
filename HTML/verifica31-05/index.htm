@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+  <head>
+      <meta charset="utf-8" />
+      <meta name="viewport" content="width=device-width,initial-scale=1" />
+      <title>PyScript</title>
+      <link rel="stylesheet" href="https://pyscript.net/releases/2024.4.1/core.css">
+      <script type="module" src="https://pyscript.net/releases/2024.4.1/core.js"></script>
+      <link rel="stylesheet" href="./css/stile.css">
+  </head>
+  <body>
+    
+    <section>
+      <div id="s1">
+        <input type="text" id="risposta" placeholder="inserisci la parola">
+        <button py-click="verifica">verifica</button>
+      </div>
+      <div id="s2">
+        <div class="lettere" id="d0" py-click="aiuto"></div>
+        <div class="lettere" id="d1" py-click="aiuto"></div>
+        <div class="lettere" id="d2" py-click="aiuto"></div>
+        <div class="lettere" id="d3" py-click="aiuto"></div>
+        <div class="lettere" id="d4" py-click="aiuto"></div>
+        <div class="lettere" id="d5" py-click="aiuto"></div>
+        <div id="punti">0</div>
+      </div>
+  </section>
+
+    <script type="py" src="./py/main.py" ></script>
+  </body>
+</html>

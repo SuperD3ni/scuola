@@ -1,0 +1,68 @@
+header {
+    display: flex;
+    justify-content: center;
+    color: black;
+    background-color: bisque;
+    padding: 20px 0px;
+    margin: 0px 0px 5px 0px;
+}
+
+nav {
+    padding: 70px 200px 0px 160px;
+    background-color: antiquewhite;
+    display: flex;
+    justify-content: center;
+}
+
+li {
+    display: block;
+    padding: 30px 0px;
+}
+
+a {
+    text-decoration: none;
+    text-transform: uppercase;
+    color: grey;
+    display: flex;
+    justify-content: center;
+}
+
+body {
+    background-color: beige;
+    color: rgb(0, 0, 0);
+}
+
+.main {
+    display: flex;
+    justify-content: space-between;
+}
+
+aside {
+    padding: 200px 160px 0px 200px;
+    background-color: antiquewhite;
+}
+
+section {
+    display: flex;
+    justify-content: center;   
+    padding: 25px 430px;
+    background-color: blanchedalmond;
+}
+
+figure {
+    display: flex;
+    justify-content: center;
+}
+
+footer {
+    display: flex;
+    justify-content: center;
+    background-color: rgb(234, 210, 179);
+    margin-top: 10px;
+    padding: 25px 0px;
+}
+
+a:hover {
+    background-color: gray;
+    color: white;
+}

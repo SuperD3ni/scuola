@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+  <head>
+      <meta charset="utf-8" />
+      <meta name="viewport" content="width=device-width,initial-scale=1" />
+      <title>PyScript</title>
+      <link rel="stylesheet" href="https://pyscript.net/releases/2024.4.1/core.css">
+      <script type="module" src="https://pyscript.net/releases/2024.4.1/core.js"></script>
+      <link rel="stylesheet" href="./css/stile.css">
+  </head>
+  <body>
+    
+  <section>
+    <div id="titolo">
+      <h1>2048</h1>
+      <p id="scritte">premi i tasti per postare tutte le caselle verso una direzione, se due caselle hanno il numero uguale e si incontrano, si sommano. L'obiettivo è arrivare a 2048</p>
+    </div>
+      <div id="gioco">
+      <div id="d0" class="numeri"></div>
+      <div id="d1" class="numeri"></div>
+      <div id="d2" class="numeri"></div>
+      <div id="d3" class="numeri"></div>
+      <div id="d4" class="numeri"></div>
+      <div id="d5" class="numeri"></div>
+      <div id="d6" class="numeri"></div>
+      <div id="d7" class="numeri"></div>
+      <div id="d8" class="numeri"></div>
+      <div id="d9" class="numeri"></div>
+      <div id="d10" class="numeri"></div>
+      <div id="d11" class="numeri"></div>
+      <div id="d12" class="numeri"></div>
+      <div id="d13" class="numeri"></div>
+      <div id="d14" class="numeri"></div>
+      <div id="d15" class="numeri"></div>
+    </div>
+    <div id="tasti">
+      <button id="su" class="direzioni" py-click="su">↑</button>
+      <button id="giu" class="direzioni" py-click="giu">↓</button>
+      <button id="sx" class="direzioni" py-click="sx">←</button>
+      <button id="dx" class="direzioni" py-click="dx">→</button>
+    </div>
+    <div id="vinto"></div>
+  </section>
+
+  
+
+    <script type="py" src="./py/main.py"></script>
+  </body>
+</html>

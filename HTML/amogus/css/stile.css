@@ -1,0 +1,61 @@
+body {
+    font-family: 'Lexend', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: lightskyblue
+}
+
+header, footer, article, nav, aside, section, figure {
+    margin: 20px;
+    padding: 20px;
+    text-align: center;
+    background-color: #ffffff;
+}
+
+header h1{
+    color: #333;
+}
+
+nav ul {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    justify-content: space-around;
+}
+
+nav a{
+    text-decoration: none;
+    color: #333;
+    font-weight: bold;
+}
+
+nav a:hover{
+    color: #ffffff;
+    background-color: #000000;
+    padding: 5px;
+}
+
+main{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+article, section, aside{
+    flex-basis:25%;
+    margin-bottom: 20px;
+}
+
+article,section{
+    background-color: #f9f9f9;
+}
+
+aside{
+    background-color: #dcdcdc
+}
+
+footer{
+    margin-top: 20px;
+    text-align: center;
+    color: #000000;
+}

@@ -21,7 +21,7 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{72c1f0c9-fa65-4cb6-813f-99408c7e7e4a}</ProjectGuid>
+    <ProjectGuid>{76f66731-4a0d-4ba5-ba93-ee1ecc453e7c}</ProjectGuid>
     <RootNamespace>aree</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
@@ -127,7 +127,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="aree.cpp" />
+    <ClCompile Include="aree.c" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

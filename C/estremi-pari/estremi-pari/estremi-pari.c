@@ -15,8 +15,11 @@ int main()
 
     do
     {
-        printf("%d\n", i);
-        i += 2;
+        if (i % 2 == 0) 
+        {
+            printf("%d\n", i);
+        }
+        i += 1;
     } while (i <= e2);
 
     return 0;

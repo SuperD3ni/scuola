@@ -13,7 +13,7 @@ int main()
         printf("inserisci numero: ");
         scanf("%f", &n);
 
-        r = r + n;
+        r += n;
     } while (r < 1000);
 
     printf("risultato finale: %f", r);

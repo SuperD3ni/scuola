@@ -1,4 +1,4 @@
-let parole=["casa","luna","tela","mare","cane"];
+let parole=["casa","luna","tela","mare","cane", "barca", "tenda", "succo", "patata", "salute"];
 const indiceR = Math.floor(Math.random() * (parole.length ));
 let parola=parole[indiceR];
 
@@ -19,6 +19,7 @@ let parolaMischiata=mischiay(parole[indiceR]);
 parolaMischiata.forEach((elemento,indice)=>{
     d="d"+(indice+1)
     document.getElementById(d).textContent=elemento;
+    document.getElementById(d).style.backgroundColor="blue";
 });
 }
 
@@ -31,11 +32,27 @@ function check(){
             document.getElementById(d).style.backgroundColor="green";
             document.getElementById(d).textContent=elemento;
         }
+        else if (guess[indice]== null){
+            document.getElementById(d).style.backgroundColor="yellow";
+            document.getElementById(d).textContent="_";
+        }
         else {
             document.getElementById(d).style.backgroundColor="red";
-            document.getElementById(d).textContent=elemento;
+            document.getElementById(d).textContent="_";
         }
+        
     });
+    help(guess, arr);
+}
+
+function help(guess, parola){
+    let lettereMancanti = [];
+    parola.forEach((elemento, indice) => {
+        if (elemento!=guess[indice]) {
+            lettereMancanti.push(elemento);
+        }
+    }); 
+    document.getElementById("indizio").textContent="lettere mancanti:" + lettereMancanti;
 }
 
 document.addEventListener("DOMContentLoaded",inizio);  

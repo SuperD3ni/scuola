@@ -20,9 +20,9 @@ h1 {
 }
 
 div {
-    background-color: #3410ff;
-    height: 10vw;
-    width: 10vw;
+    background-color: transparent;
+    height: 9vw;
+    width: 9vw;
     text-align: center;
     line-height: 100px;
     margin-top: 2vw;
@@ -32,8 +32,19 @@ div {
     
 }
 
-#d1{
-    height: 10vw;
-    width: 12vw;
+#indizio{
+    background-color: rgb(137, 241, 255);
+    color: black;
+    font-size: 1em;
+    width: 30vw;
+    height: 8vw;
 }
 
+input{
+    height: 30px;
+    margin-top: 4vw;
+}
+button{
+    height: 36px;
+    margin-top: 4vw;
+}

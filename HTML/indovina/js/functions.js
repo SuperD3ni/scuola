@@ -45,15 +45,6 @@ function check(){
     help(guess, arr);
 }
 
-function help(guess, parola){
-    let lettereMancanti = [];
-    parola.forEach((elemento, indice) => {
-        if (elemento!=guess[indice]) {
-            lettereMancanti.push(elemento);
-        }
-    }); 
-    document.getElementById("indizio").textContent="lettere mancanti:" + lettereMancanti;
-}
 
 document.addEventListener("DOMContentLoaded",inizio);  
 document.getElementById("b").addEventListener("click",check);

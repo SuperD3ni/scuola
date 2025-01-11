@@ -1,0 +1,48 @@
+#grid {
+    height: 40vw;
+    width: 40vw;
+    border: solid;
+    border-width: 0.15vw;
+    border-color: black;
+    background-color: white;
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    
+}
+
+.grid {
+    border: solid;
+    border-width: 0.15vw;
+    border-color: black;
+    background-color: grey;
+    height: 2.2vw;
+    width: 2.2vw;
+    color: transparent;
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.button {
+    height: 3vw;
+    width: 6vw;
+    background-color: red;
+    border: solid;
+    border-width: 0.15vw;
+    border-color: black;
+    color: white;
+    font-family: fantasy;
+    text-align: center;
+    padding: 10%;
+}
+
+#buttons {
+    padding: 1%;
+}

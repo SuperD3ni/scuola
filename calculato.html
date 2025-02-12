@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GI Primogems Saving Calculator</title>
+    <style>
+
+    </style>
+</head>
+<body>
+
+    <section id="inputDataSection">
+        <label for="startDate">When you start saving up: </label>
+        <input type="date" id="startDate" min="2020-09-28" class="inputData">
+        <label for="endDate">When you finish saving up: </label>
+        <input type="date" id="endDate" min="2020-09-28" class="inputData">
+        <label for="startingPrimos">Primogems you have: </label>
+        <input type="number" id="startingPrimos" min="0" class="inputData">
+        <label for="abyssStars">abyss Stars (0-32): </label>
+        <input type="number" id="abyssStars" min="0" max="32" class="inputData">
+        <label for="acts">Imaginarium Theater acts (0-10): </label>
+        <input type="number" id="acts" min="0" max="10" class="inputData">
+        <label for="checkIn">Hoyolab check-In: </label>
+        <input type="checkbox" id="checkIn" class="inputData">
+        <label for="exchange">Stardust Exchange: </label>
+        <input type="checkbox" id="exchange" class="inputData">
+        <label for="welkin">Welkin Moon: </label>
+        <input type="checkbox" id="welkin" class="inputData">
+        <label for="bp">Battle Pass: </label>
+        <input type="checkbox" id="bp" class="inputData">
+        <button id="calc">calculate</button>
+    </section>
+    <section id="outputData">
+        <div id="commissionsOut"></div>
+        <div id="abyssOut"></div>
+        <div id="imaginariumOut"></div>
+        <div id="codesOut"></div>
+        <div id="maintenceOut"></div>
+        <div id="issueFixOut"></div>
+        <div id="trialsOut"></div>
+        <div id="checkInOut"></div>
+        <div id="welkinOut"></div>
+        <div id="bpOut"></div>
+    </section>
+    <section id="conclusions">
+        <div id="totalPrimo"></div>
+        <div id="totalFates"></div>
+        <div id="remainingPrimo"></div>
+        <div id="pities"></div>
+        <div id="guaranteeds"></div>
+    </section>
+
+<script>
+    function start(){
+        const button = document.getElementById("calc");
+        button.addEventListener("click", getData);
+    }
+
+    function getData(){
+        let inputSection = document.getElementById("inputDataSection");
+        const nodeList = document.querySelectorAll('.inputData');
+        const inputArray = Array.from(nodeList);
+        let map = new Map();
+        inputArray.forEach(element=>{
+            if (element.type != "checkbox"){
+                map.set(element.id, element.value);
+            } else {
+                if (element.checked){
+                    map.set(element.id, true);
+                } else {
+                    map.set(element.id, false);
+                }
+            }
+            
+        })
+        console.log(map);
+    }
+    document.addEventListener("DOMContentLoaded", start);
+</script>
+</body>
+</html>

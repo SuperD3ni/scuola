@@ -1,0 +1,35 @@
+body{
+    background-color: beige;
+}
+
+section{
+    display: flex;
+    justify-content: center;
+}
+
+#s1{
+    background-color: burlywood;
+    width: 40vw;
+    height: 30vw;
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.cell{
+    background-color: whitesmoke;
+    width: 4vw;
+    height: 4vw;
+    margin: 1%;
+    border-radius: 50%;
+    text-align: center;
+    vertical-align: middle;
+}
+
+#clockDiv{
+    background-color: burlywood;
+    color: black;
+    padding: 0.2vw;
+    display: inline-block;
+}

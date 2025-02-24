@@ -1,0 +1,9 @@
+section{
+    justify-content: center;
+}
+div{
+    background-color: rgb(58, 95, 128);
+    width: 5vw;
+    height: 5vw;
+    margin: 2%;
+}

@@ -1,3 +1,4 @@
+#define _CRT_SECURE_NO_WARNINGS
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -69,10 +70,16 @@ void printArray(int arr[], int size) {
 
 // codice principale
 int main() {
-    int arr[] = {645, 1, 32, 55, 13, 7};
-    int arr_size = 6;
+    int arr_size, n;
+    printf("inserisci lunghezza array\n");
+    scanf("%d", &arr_size);
+    int *arr = (int*)malloc(arr_size * sizeof(int));
+    for (int i = 0; i < arr_size; i++) {
+        printf("inserisci numero\n");
+        scanf("%d", &arr[i]);
+    }
 
-    printf("Array normale \n");
+    printf("\nArray normale \n");
     printArray(arr, arr_size);
 
     mergeSort(arr, 0, arr_size - 1);

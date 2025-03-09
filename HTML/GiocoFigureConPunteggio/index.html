@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Map con Div</title>
+    <style>
+        section {
+            display: flex;
+            justify-content: space-between;
+            padding: 5%;
+        }
+        .figure {
+            width: 100px;
+            height: 100px;
+            background-color: lightgray;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            text-align: center;
+        }
+        .figure:hover {
+            background-color: lightblue;
+        }
+    </style>
+</head>
+<body>
+
+<section>
+    <div id="div1" class="figure">Figura 1</div>
+    <div id="div2" class="figure">Figura 2</div>
+    <div id="div3" class="figure">Figura 3</div>
+    <div id="div4" class="figure">Figura 4</div>
+    <div id="div5" class="figure">Figura 5</div>
+</section>
+<section>
+    <div id="points">punteggio: 0</div>
+</section>
+
+
+
+<p id="output"></p>
+
+<script>
+    let points = 0;
+    // Creazione della mappa con nome figura e punteggio
+    const figuresMap = new Map();
+    figuresMap.set('div1', { name: 'Quadrato', score: 10, img: 'https://th.bing.com/th/id/OIP.LrCK7O-PsPLfsTCbXQkGHwHaKX?w=156&h=180&c=7&r=0&o=5&pid=1.7' });
+    figuresMap.set('div2', { name: 'Cerchio', score: 20, img: 'https://th.bing.com/th/id/OIP.dNjNS8JX-myDYTYoT4pltgHaHa?w=166&h=180&c=7&r=0&o=5&pid=1.7' });
+    figuresMap.set('div3', { name: 'Triangolo', score: 30, img: 'https://th.bing.com/th/id/OIP.djT5MnRzZrFfVJlhLlhrdAHaHa?w=159&h=180&c=7&r=0&o=5&pid=1.7' });
+    figuresMap.set('div4', { name: 'Rettangolo', score: 40, img: 'https://th.bing.com/th/id/OIP.tzbYI0egUfnDr0dgR1azKwHaFc?w=234&h=180&c=7&r=0&o=5&pid=1.7' });
+    figuresMap.set('div5', { name: 'Croce', score: -1, img: 'https://th.bing.com/th/id/OIP._kVSYSd7SHfl3mmX1CwiOQHaHa?w=209&h=209&c=7&r=0&o=5&pid=1.7' });
+
+    // Gestione dei click sui div
+    document.querySelectorAll('.figure').forEach(div => {
+        div.addEventListener('click', () => {
+            const divId = div.id;
+            const figure = figuresMap.get(divId);
+            const output = document.getElementById('output');
+            const punteggio = document.getElementById('points');
+            div.innerHTML = `<img src='${figure.img}'>`;
+            if (figure.score == -1){
+                output.innerHTML = 'Hai cliccato sulla croce, hai perso';
+                document.querySelectorAll('.figure').forEach(div => {
+                    div.style.pointerEvents='none';
+                })
+            } else {
+                output.innerHTML = `Hai cliccato su ${figure.name}, hai guadagnato ${figure.score} punti`;
+                points += figure.score;
+                punteggio.innerHTML = `punteggio: ${points}`;
+            }
+        });
+    });
+</script>
+
+</body>
+</html>

@@ -11,20 +11,13 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
-        #risultato{
-            background-color: #4a90e2;
-            width: 30vh;
-            height: 15vh;
-            border-radius: 15px;
-        }
-
         .section {
             width: 50%;
             height: 500px;
             margin: 2rem auto;
             padding: 1.5rem;
             border-radius: 15px;
-            
+            display: flex;
             flex-wrap: wrap;
             gap: 1rem;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -33,23 +26,11 @@
         #s1 {
             background-color: #ffffff;
             border: 2px solid #e2e8f0;
-            display: flex;
         }
 
         #s2 {
             background-color: #f8f9fa;
             border: 2px solid #e9ecef;
-            width: 20%;
-        }
-
-        #s3{
-            display: flex;
-        }
-
-        #reset{
-            margin-left: 87px;
-            
-            margin-top: 5vh;
         }
 
         .div-item {

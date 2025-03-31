@@ -1,0 +1,27 @@
+#board {
+    display: grid;
+    grid-template-columns: repeat(6, 100px);
+    grid-gap: 5px;
+    margin: 20px;
+}
+
+.cell {
+    width: 100px;
+    height: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 12px;
+    text-align: center;
+    border: 1px solid #ccc;
+    position: relative;
+}
+
+.player {
+    border: 5px solid blue;
+}
+
+#diceResult, #actionResult {
+    margin: 10px;
+    font-weight: bold;
+}

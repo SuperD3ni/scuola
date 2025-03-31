@@ -50,13 +50,13 @@ caselleCopia.unshift(nuovaCasellaPassaggio);
 const mappa = new Map(caselleCopia.map(casella => [casella, null]));
 
 const azioni = [
-    { descrizioneAzione: "Avanza di 2 caselle", tipoAzione: "positiva", azione: () => console.log("Avanza di 2 caselle") },
+    { descrizioneAzione: "Avanza di 2 caselle", tipoAzione: "positiva", azione: () => avanzaGiocatore(2) },
     { descrizioneAzione: "Perdi un turno", tipoAzione: "negativa", azione: () => console.log("Perdi un turno") },
-    { descrizioneAzione: "Torna alla casella 6", tipoAzione: "negativa", azione: () => console.log("Torna alla casella 6") },
-    { descrizioneAzione: "Tira di nuovo il dado", tipoAzione: "positiva", azione: () => console.log("Tira di nuovo il dado") },
+    { descrizioneAzione: "Torna alla casella 6", tipoAzione: "negativa", azione: () => spostaGiocatore(5) },
+    { descrizioneAzione: "Tira di nuovo il dado", tipoAzione: "positiva", azione: () => tiraDadi() },
     { descrizioneAzione: "Ottieni un punto bonus", tipoAzione: "positiva", azione: () => console.log("Ottieni un punto bonus") },
-    { descrizioneAzione: "Vai alla casella 25", tipoAzione: "positiva", azione: () => console.log("Vai alla casella 25") },
-    { descrizioneAzione: "Torna indietro di 3 caselle", tipoAzione: "negativa", azione: () => console.log("Torna indietro di 3 caselle") },
+    { descrizioneAzione: "Vai alla casella 25", tipoAzione: "positiva", azione: () => spostaGiocatore(24) },
+    { descrizioneAzione: "Torna indietro di 3 caselle", tipoAzione: "negativa", azione: () => avanzaGiocatore(-3) },
     { descrizioneAzione: "Salta il prossimo turno", tipoAzione: "negativa", azione: () => console.log("Salta il prossimo turno") },
     { descrizioneAzione: "Hai vinto il gioco!", tipoAzione: "positiva", azione: () => console.log("Hai vinto il gioco!") }
 ];
@@ -76,25 +76,14 @@ caselleCopia.forEach(casella => {
     }
 });
 
-const posizione = 0;
-const casellaCorrente = caselleCopia[posizione];
-const azioneCorrente = mappa.get(casellaCorrente);
-
-console.log(`Alla casella ${posizione + 1} (${casellaCorrente.descrizione}):`);
-if (azioneCorrente) {
-    console.log(`Azione: ${azioneCorrente.descrizioneAzione}`);
-    azioneCorrente.azione();
-} else {
-    console.log("Nessuna azione speciale.");
-}
-
-function lancio(){
-    let n = Math.floor(Math.random() * 12) + 2;
-    console.log(n);
-}
+const board = document.getElementById("board");
+const diceButton = document.getElementById("diceButton");
+const diceResultDiv = document.getElementById("diceResult");
+const actionResultDiv = document.getElementById("actionResult");
+let posizioneGiocatore = 0;
+let intervalloMovimento;
 
 function visualizzaCaselle() {
-    const board = document.getElementById("board");
     caselleCopia.forEach(casella => {
         const cell = document.createElement("div");
         cell.className = "cell";
@@ -105,4 +94,55 @@ function visualizzaCaselle() {
 }
 
 visualizzaCaselle();
-document.getElementById("button").addEventListener("click", lancio);
+
+function avanzaGiocatore(caselle) {
+    let destinazione = posizioneGiocatore + caselle;
+    if (destinazione < 0) {
+        destinazione = 0;
+    } else if (destinazione >= caselleCopia.length) {
+        destinazione = caselleCopia.length - 1;
+    }
+
+    let passi = caselle > 0 ? 1 : -1;
+    let passoCorrente = posizioneGiocatore;
+
+    intervalloMovimento = setInterval(() => {
+        passoCorrente += passi;
+        aggiornaPosizioneGiocatore(passoCorrente);
+
+        if (passoCorrente === destinazione) {
+            clearInterval(intervalloMovimento);
+            posizioneGiocatore = destinazione;
+            const casellaCorrente = caselleCopia[posizioneGiocatore];
+            const azioneCorrente = mappa.get(casellaCorrente);
+            if (azioneCorrente) {
+                actionResultDiv.textContent = `Azione: ${azioneCorrente.descrizioneAzione}`;
+                azioneCorrente.azione();
+            } else {
+                actionResultDiv.textContent = "Nessuna azione speciale.";
+            }
+        }
+    }, 200);
+}
+
+function spostaGiocatore(nuovaPosizione) {
+    avanzaGiocatore(nuovaPosizione - posizioneGiocatore);
+}
+
+function aggiornaPosizioneGiocatore(posizione) {
+    const celle = document.querySelectorAll('.cell');
+    celle.forEach(cella => cella.classList.remove('player'));
+    board.children[posizione].classList.add('player');
+}
+
+aggiornaPosizioneGiocatore(posizioneGiocatore);
+
+function tiraDadi() {
+    const dado1 = Math.floor(Math.random() * 6) + 1;
+    const dado2 = Math.floor(Math.random() * 6) + 1;
+    const sommaDadi = dado1 + dado2;
+    diceResultDiv.textContent = `Dadi: ${dado1} + ${dado2} = ${sommaDadi}`;
+    avanzaGiocatore(sommaDadi);
+}
+
+diceButton.addEventListener("click", tiraDadi);

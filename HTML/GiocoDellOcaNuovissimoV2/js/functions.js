@@ -76,7 +76,7 @@ caselleCopia.forEach(casella => {
     }
 });
 
-const posizione = 4;
+const posizione = 0;
 const casellaCorrente = caselleCopia[posizione];
 const azioneCorrente = mappa.get(casellaCorrente);
 
@@ -86,6 +86,11 @@ if (azioneCorrente) {
     azioneCorrente.azione();
 } else {
     console.log("Nessuna azione speciale.");
+}
+
+function lancio(){
+    let n = Math.floor(Math.random() * 12) + 2;
+    console.log(n);
 }
 
 function visualizzaCaselle() {
@@ -100,3 +105,4 @@ function visualizzaCaselle() {
 }
 
 visualizzaCaselle();
+document.getElementById("button").addEventListener("click", lancio);

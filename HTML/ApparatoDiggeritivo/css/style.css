@@ -1,0 +1,279 @@
+body {
+    padding-top: 5vw;
+    padding-bottom: 5vw;
+    padding-left: 3vw;
+    padding-right: 3vw;
+    box-sizing: border-box;
+}
+
+header {
+    position: fixed;
+    width: 100%;
+    height: 5vw;
+    background-color: #ffae44;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0 1vw;
+    box-sizing: border-box;
+}
+
+nav {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 1vw 2vw;
+}
+
+button, a {
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    text-decoration: none;
+    color: #000000;
+    padding: 0.5vw 1vw;
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+    font-size: 1em;
+    white-space: nowrap;
+}
+
+#app {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+#links {
+    top: 0;
+    left: 0;
+}
+
+#credits {
+    bottom: 0;
+    left: 0;
+}
+
+.home{
+    text-align: center;
+    font-size: 1.5em;
+}
+
+.home ul {
+    text-align: left;
+    display: inline-block;
+}
+  
+.home li {
+    text-align: left;
+}
+
+.bocca {
+    text-align: center;
+    font-size: 1.3em;
+}
+
+.bocca ul {
+    text-align: left;
+    display: inline-block;
+}
+
+.bocca li {
+    text-align: left;
+    font-size: 1.2em;
+}
+
+#linguaImg {
+    width: 40vw;
+}
+
+.ghiandole {
+    text-align: center;
+    font-size: 1.2em;
+}
+
+#ghiandoleP1 {
+    font-size: 1.55em;
+}
+
+#ghiandoleImg {
+    width: 30vw;
+}
+
+.gola {
+    text-align: center;
+    font-size: 1.3em;
+}
+
+#golaIntro {
+    margin-bottom: 10vw;
+}
+
+.fegato {
+    text-align: center;
+    font-size: 1.3em;
+}
+
+.fegato h3 {
+    font-size: 1.5em;
+}
+
+.fegato h2 {
+    font-size: 1.7em;
+}
+
+.cistifellea {
+    font-size: 1.3em;
+    text-align: center;
+}
+
+#cistifelleaImg {
+    width: 35vw;
+}
+
+.cistifellea h2 {
+    font-size: 1.7em;
+}
+
+.cistifellea h3 {
+    font-size: 1.5em;
+}
+
+.stomaco {
+    font-size: 1.3em;
+    text-align: center;
+}
+
+#stomacoImg {
+    width: 30vw;
+}
+
+.stomaco h2 {
+    font-size: 1.7em;
+}
+
+.stomaco h3 {
+    font-size: 1.5em;
+}
+
+.pancreas {
+    font-size: 1.3em;
+    text-align: center;
+}
+
+.pancreas h2 {
+    font-size: 1.7em;
+}
+
+.pancreas h3 {
+    font-size: 1.5em;
+}
+
+.pancreas ul {
+    text-align: left;
+    display: inline-block;
+}
+
+.pancreas li {
+    text-align: left;
+    font-size: 1.2em;
+}
+
+.intestinoT {
+    font-size: 1.3em;
+    text-align: center;
+}
+
+.intestinoT h2 {
+    font-size: 1.7em;
+}
+
+.intestinoT ul {
+    text-align: left;
+    display: inline-block;
+}
+
+.intestinoT li {
+    text-align: left;
+    font-size: 1.2em;
+}
+
+.intestinoC {
+    font-size: 1.3em;
+    text-align: center;
+}
+
+.intestinoC h2 {
+    font-size: 1.7em;
+}
+
+.intestinoC ul {
+    text-align: left;
+    display: inline-block;
+}
+
+.intestinoC li {
+    text-align: left;
+    font-size: 1em;
+}
+
+.intestinoC ul li {
+    text-align: left;
+    font-size: 1.2em;
+}
+
+.appendice {
+    font-size: 1.3em;
+    text-align: center;
+}
+
+.appendice h2 {
+    font-size: 1.7em;
+}
+
+.appendice ul {
+    text-align: left;
+    display: inline-block;
+}
+
+.appendice li {
+    text-align: left;
+    font-size: 1em;
+}
+
+#appendiceImg {
+    width: 25vw;
+}
+
+.ano {
+    font-size: 1.3em;
+    text-align: center;
+}
+
+.ano h2 {
+    font-size: 1.7em;
+}
+
+.ano ul {
+    text-align: left;
+    display: inline-block;
+}
+
+.ano li {
+    text-align: left;
+    font-size: 1em;
+}
+
+.fonti {
+    font-size: 1.3em;
+    text-align: center;
+}
+
+.fonti ul {
+    text-align: left;
+    display: inline-block;
+}
+
+.fonti li {
+    text-align: left;
+    font-size: 1em;
+}

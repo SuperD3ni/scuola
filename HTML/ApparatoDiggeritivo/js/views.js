@@ -143,7 +143,7 @@ function golaView(){
     let paragrafo = document.createElement('p');
     paragrafo.className = 'gola';
     paragrafo.id = 'golaIntro';
-    paragrafo.textContent = "La gola, pur non essendo un organo digestivo in senso stretto, svolge un ruolo cruciale nel processo di digestione. Anatomicamente, è un crocevia complesso che mette in comunicazione sia l'apparato digerente che quello respiratorio. Le sue componenti principali coinvolte nella digestione sono:";
+    paragrafo.textContent = "La gola, pur non essendo un organo digestivo in senso stretto, svolge un ruolo cruciale nel processo di digestione. Anatomicamente, è una crocevia complessa che mette in comunicazione sia l'apparato digerente che quello respiratorio. Le sue componenti principali coinvolte nella digestione sono:";
     golaDiv.appendChild(paragrafo);
 
     paragrafo = document.createElement('p');

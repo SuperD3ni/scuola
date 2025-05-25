@@ -1,0 +1,195 @@
+/* Stili Generali */
+body {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+    background-color: #f4f4f4;
+    color: #333;
+}
+
+#app {
+    max-width: 800px;
+    margin: 0 auto;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+h1 {
+    color: #0056b3;
+    text-align: center;
+}
+
+/* Stili per la pagina Utenti */
+form {
+    margin-top: 20px;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+}
+
+form label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+form input[type="text"] {
+    width: calc(100% - 22px);
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+form button {
+    background-color: #007bff;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+form button:hover {
+    background-color: #0056b3;
+}
+
+#listaGiocatori {
+    list-style: none;
+    padding: 0;
+    margin-top: 20px;
+    border-top: 1px solid #eee;
+    padding-top: 10px;
+}
+
+#listaGiocatori li {
+    background-color: #e2e2e2;
+    margin-bottom: 5px;
+    padding: 8px 12px;
+    border-radius: 4px;
+}
+
+/* Stili per la pagina Gioco */
+.game-section {
+    padding: 10px;
+}
+
+.game-elements-wrapper {
+    border: 1px solid #a0a0a0;
+    padding: 20px;
+    border-radius: 5px;
+    background-color: #fff;
+}
+
+.players-info {
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #eee;
+}
+
+.players-info p {
+    font-weight: bold;
+    margin: 5px 0;
+}
+
+#turn-display {
+    font-weight: bold;
+    font-size: 1.1em;
+    margin-bottom: 15px;
+    color: #28a745;
+}
+
+.score-bars-container {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 10px;
+    margin-bottom: 20px;
+}
+
+.score-bar {
+    width: 250px;
+    height: 20px;
+    border: 1px solid #333;
+    display: flex;
+    margin: 0 5px;
+    border-radius: 3px;
+    overflow: hidden; /* Assicura che i segmenti non escano */
+}
+
+.bar-segment {
+    width: 10px; /* 25 segmenti per 250px */
+    height: 100%;
+    background-color: grey; /* Colore di default */
+}
+
+.bar-segment.filled {
+    background-color: green;
+}
+
+.bar-segment.grey {
+    background-color: grey;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(5, 50px);
+    gap: 5px;
+    width: fit-content;
+    margin: 0 auto; /* Centra la griglia */
+}
+
+.grid-cell {
+    width: 50px;
+    height: 50px;
+    border: 1px solid #000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    font-size: 1.2em;
+    font-weight: bold;
+    background-color: #f0f0f0;
+    transition: background-color 0.2s ease;
+    border-radius: 4px;
+}
+
+.grid-cell.revealed {
+    background-color: #ccc;
+    cursor: default;
+    color: #555;
+}
+
+/* Stili per la pagina Punteggi */
+.scores-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.scores-table th, .scores-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+.scores-table th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+}
+
+.scores-table tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.scores-table tr:hover {
+    background-color: #f1f1f1;
+}
+
+.error-message {
+    color: red;
+    margin-top: 10px;
+    font-weight: bold;
+}

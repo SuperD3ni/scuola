@@ -1,0 +1,74 @@
+body{
+    background-color: #FFE6E1;
+}
+
+nav{
+    background-color: #FF3F33;
+    width: 100%;
+    padding: .5vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
+}
+
+nav button{
+    margin: .3vw;
+}
+
+#app{
+    margin: 2vw;
+}
+
+#mainGrid{
+    height: 40vw;
+    width: 40vw;
+    background-color: #075B5E;
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    padding: 2%;
+}
+
+.cell{
+    background-color: #9FC87E;
+    height: 6vw;
+    width: 6vw;
+    color: transparent;
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+}
+
+#uncovered{
+    background-color: #FFE6E1;
+    color: #075B5E;
+}
+
+#bar{
+    height: 2.1vw;
+    width: 30vw;
+    background-color: #075B5E;
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    padding: .1vw;
+    margin: .5vw;
+}
+
+.bar{
+    background-color: #FFE6E1;
+    width: 1vw;
+    height: 1.8vw;
+}
+
+.barL{
+    background-color: #9FC87E;
+    width: 1vw;
+    height: 1.8vw;
+}
+
+#app{
+    display: flex;
+    justify-content: space-around;
+}

@@ -30,7 +30,7 @@ nav button{
     padding: 2%;
 }
 
-.cell{
+#mainGrid div{
     background-color: #9FC87E;
     height: 6vw;
     width: 6vw;
@@ -38,10 +38,6 @@ nav button{
     display: flex;
     justify-content: space-around;
     flex-wrap: wrap;
-}
-
-#uncovered{
-    background-color: #FFE6E1;
     color: #075B5E;
 }
 

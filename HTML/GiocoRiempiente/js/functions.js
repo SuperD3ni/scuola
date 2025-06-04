@@ -1,4 +1,9 @@
-import { usersView, gameView, scoresView } from "./views.js";
+import { usersView } from "./users.js";
+import { gameView } from "./game.js";
+import { scoresView } from "./scores.js";
+export {navigate}
+export let players = [];
+export let scores = [];
 
 const views = new Map([
     ['users', usersView],

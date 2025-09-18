@@ -54,7 +54,7 @@ Scrivi un programma finale che:
 #conta che il file classi ci sia gia'
 
 try:
-    with open("classi.txt", "r") as classesf, open("indice.txt", "w") as indexf: #P1
+    with open("classi.txt", "r") as classesf, open("indice.txt", "w") as indexf:
         line = classesf.readline()
         pos = classesf.tell()
         while line:
@@ -64,13 +64,14 @@ try:
             line = classesf.readline()
             pos = classesf.tell()
         
-    chosen_class = input("Inserisci il nome di una classe (e.g. 1P, 2P, 3P, 4P): ") #P2
+    chosen_class = input("Inserisci il nome di una classe (e.g. 1P, 2P, 3P, 4P): ")
     with open("indice.txt", "r") as indexf, open("classi.txt", "r") as classesf:
         line = indexf.readline()
         lf = True
         while line:
             if line.startswith(chosen_class):
                 classesf.seek(int(line.split('-')[1].strip('\n')))
+                lf=False
             line = indexf.readline()
         if lf:
             print('Errore: classe non trovata')
@@ -80,7 +81,8 @@ try:
                 print(line)
                 line = classesf.readline()
                 if line[0].isdigit():
-                    line = None 
+                    line = None
+
 
 except IOError as e:
     print(f"I/O error: can't write in file '{indexf}'.")

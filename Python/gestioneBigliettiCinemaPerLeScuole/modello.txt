@@ -1,0 +1,9 @@
+*** Comunicazione per la classe {{CLASSE}} ***
+
+Gentili studenti,
+Di seguito trovate il riepilogo dei costi per la gita al cinema.
+
+{{ELENCO_STUDENTI}}
+Si prega di versare l'importo richiesto al più presto.
+Grazie per la collaborazione.
+La Segreteria Scolastica

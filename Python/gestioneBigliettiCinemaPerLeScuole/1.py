@@ -1,5 +1,6 @@
 import pickle
 from dataclasses import dataclass
+import os
 
 @dataclass
 class StudentePagante:
@@ -40,6 +41,8 @@ try:
     if not found_class:
         print(f"Errore: la classe '{chosen_class}' non è stata trovata.")
     else:
+        output_folder = "cartella_output"
+        
         studenti_paganti = []
         with open("classi.txt", "r") as classesf:
             classesf.seek(class_position)
@@ -50,7 +53,7 @@ try:
                 if len(parts) >= 3:
                     nome = parts[0]
                     cognome = parts[1]
-                    eta = int(parts[2])
+                    eta = int(parts[-1])
                     
                     prezzo_biglietto = calcola_prezzo(eta)
                     
@@ -58,7 +61,7 @@ try:
                     studenti_paganti.append(studente)
                 line = classesf.readline()
                 
-            output_filename = f"biglietti_{chosen_class}.pkl"
+            output_filename = os.path.join(output_folder, f"biglietti_{chosen_class}.pkl")
             with open(output_filename, "wb") as pklf:
                 pickle.dump(studenti_paganti, pklf)
                 

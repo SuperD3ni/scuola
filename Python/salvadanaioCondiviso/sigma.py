@@ -17,7 +17,7 @@ class Fratello: #classe Fratello
     def metti_soldi(self, somma):
         self.salvadanaio.aggiungi(somma)
     def controlla_risparmi(self):
-        return self.salvadanaio.soldi
+        return self.salvadanaio.mostra_saldo()
 
 def main():
     soldi_iniziali = int(input("Inserisci la somma iniziale nel salvadanaio: ")) 

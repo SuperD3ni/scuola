@@ -1,5 +1,4 @@
 import tkinter as tk
-
 class Salvadanaio:
     def __init__(self, soldi=0, ):
         self.soldi = soldi
@@ -12,10 +11,10 @@ class Salvadanaio:
         self.soldi = 0
 
 class Fratello:
-    def __init__(self, nome, cognome, Salvadanaio):
+    def __init__(self, nome, cognome, salvadanaio):
         self.nome = nome
         self.cognome = cognome
-        self.salvadanaio = Salvadanaio
+        self.salvadanaio = salvadanaio
     def metti_soldi(self, somma):
         self.salvadanaio.aggiungi(somma)
     def controlla_risparmi(self):

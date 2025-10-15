@@ -98,7 +98,6 @@ class Fratello:
 
 def build_GUI():
     root = tk.Tk()
-    root.title("Finestra Principale - NON CHIUDERE")
     root.geometry("200x50+750+100")
     
     # Inizializza Salvadanaio e Fratelli, creando le Toplevel windows

@@ -34,14 +34,12 @@ class GUI:
         name = self.name_entry.get()
         sname = self.sname_entry.get()
         age = self.age_entry.get()
-        args = f"{name} {sname} {age}"
-        java_w(args)
+        java_w (name, sname, age)
     
     def show(self):
-        result = java_r()
-        self.output_text.config(text=result)
+        self.output_text.config(text=java_r())
 
-def java_r(args):
+def java_r():
     java_path = "./read/src"
     compile = ["javac", "-b", "../bin", "App.java"]
     compile_process = subprocess.run(
@@ -52,12 +50,9 @@ def java_r(args):
     )
     class_path = "./read/bin"
     if compile_process.returncode != 0:
-        print("Compilation failed:")
+        print("Compilation failed")
         sys.exit()
-    if args:
-        result = ["java", "App", args]
-    else :
-        result = ["java", "App"]
+    result = ["java", "App"]
     result_process = subprocess.run(
         result,
         cwd=class_path,
@@ -65,10 +60,10 @@ def java_r(args):
         text=True
     )
 
-    if result.stdout:
+    if result_process.stdout:
         return result.stdout
 
-def java_w(args):
+def java_w(arg1, arg2, arg3):
     java_path = "./write/src"
     compile = ["javac", "-b", "../bin", "App.java"]
     compile_process = subprocess.run(
@@ -79,10 +74,10 @@ def java_w(args):
     )
     class_path = "./read/bin"
     if compile_process.returncode != 0:
-        print("Compilation failed:")
+        print("Compilation failed")
         sys.exit()
-    if args:
-        result = ["java", "App", args]
+    if arg1 and arg2 and arg3 :
+        result = ["java", "App", arg1, arg2, arg3]
     else :
         result = ["java", "App"]
     result_process = subprocess.run(
@@ -91,9 +86,9 @@ def java_w(args):
         capture_output=True,
         text=True
     )
-
-    if result.stdout:
+    if result_process.stdout:
         return result.stdout
+
 
 def main():
     root = tk.Tk()

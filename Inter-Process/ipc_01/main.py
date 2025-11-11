@@ -111,7 +111,17 @@ class GUI:
         java_w(name, sname, age)
     
     def show(self):
-        self.output_text.config(text=java_r())
+        result = java_r()
+        if result:
+            formatted_result = ""
+            lines = result.strip().split('\n')
+            for line in lines:
+                parts = line.split(';')
+                if len(parts) == 3:
+                    formatted_result += f"Name: {parts[0]}, Last Name: {parts[1]}, Age: {parts[2]}\n"
+            self.output_text.config(text=formatted_result)
+        else:
+            self.output_text.config(text='non fuzniona')
 
 def java_r():
     java_path = "./read/src"

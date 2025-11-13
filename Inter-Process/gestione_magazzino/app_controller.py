@@ -2,8 +2,8 @@ import os
 import sys
 import subprocess
 import tkinter as tk
-os.path.abspath(os.path.dirname(__file__))
- 
+os.chdir(os.path.dirname(os.path.abspath(__file__)))
+
 class GUI:
     def __init__(self, root):
         self.root = root
@@ -11,7 +11,7 @@ class GUI:
         self.root.geometry("300x310")
         self_frame = tk.Frame(self.root, padx=10, pady=10)
         self_frame.pack()
-        self.prod_label = tk.Label(self_frame, text="Codice notto")
+        self.prod_label = tk.Label(self_frame, text="Codice prodotto")
         self.prod_label.pack(pady=5)
         self.prod_entry = tk.Entry(self_frame, width=30)
         self.prod_entry.pack(pady=5)
@@ -33,7 +33,7 @@ class GUI:
         else:
             out = out.split(";")
             prodotto = Prodotto(out[0], out[1])
-            self.output_text.config(text=f"Prodotto: {out[0]}, {n}, {out[1]}, TOTALE: {prodotto.calcolaTotale(int(n))} €")
+            self.output_text.config(text=f"Prodotto: {out[0]}, Quantità: {n}, Prezzo: {out[1]}, TOTALE: {prodotto.calcolaTotale(int(n))} €")
 
 def java(prod, n):
     java_path = "./java_processor/src"
@@ -68,7 +68,7 @@ class Prodotto:
         self.desc = desc
         self.price = price
     def calcolaTotale(self, quantitaVenduta):
-        return self.price * quantitaVenduta
+        return int(self.price) * int(quantitaVenduta)
 
 
 def main():

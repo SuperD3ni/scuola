@@ -10,46 +10,54 @@ public class App {
         Scanner scanner;
         String[] parts;
         int newS;
-        String[] allLines = new String[100];
+        String[] allLines = new String[100]; // massime righe 100
+        boolean found = false;
 
         if (args.length == 2) {
             prod = args[0];
             n = args[1];
-            scanner = new Scanner(new File("../../dati/prodotti.csv"));
-            int i = 0;
-            while (scanner.hasNextLine()) {
-                line = scanner.nextLine();
-                allLines[i]=line;
-                if (line.startsWith(prod)){
-                    parts = line.split(";");
-                    if (Integer.parseInt(n) > Integer.parseInt(parts[2])) {
-                        System.out.println("ERRORE: Stock insufficiente.");
-                    } else {
-                        newS = Integer.parseInt(parts[2]) - Integer.parseInt(n);
-                                try (
-                                    FileWriter fw = new FileWriter("../../dati/prodotti.csv", false);
-                                    PrintWriter out = new PrintWriter(fw)
-                                ) {
-                                    for (int j = 0; j < 100; j++) {
-                                        if (allLines[j] != null) {
-                                            if (allLines[j].startsWith(prod)) { // non ho fatto in tempo ma ho capito che devo mettere questo try dopo il while 
-                                                out.println(parts[0] + ";" + parts[1] + ";" + newS + ";" + parts[3]);
-                                                System.out.println(parts[1] + ";" + parts[2] + ";" + newS);
-                                            } else { 
-                                                out.println(allLines[j]);
-                                            }
-                                        }
-                                    } 
-                                } catch (IOException e) {
-                                    System.err.println("Error while writing: " + e.getMessage());
-                                }
+            if (Integer.parseInt(n)>0){ 
+                scanner = new Scanner(new File("../../dati/prodotti.csv"));
+                int i = 0;
+                // cambiato logica operando su una'array di stringhe contenente le linee invece che sulle linee stesse
+                while (scanner.hasNextLine()) {
+                    allLines[i]=scanner.nextLine();
+                    i++;
                 }
+                scanner.close();
+                try (
+                    FileWriter fw = new FileWriter("../../dati/prodotti.csv", false);
+                    PrintWriter out = new PrintWriter(fw)
+                ) {
+                    for (int j=0; j<i; j++){
+                        line = allLines[j];
+                        if (line.startsWith(prod)&&Integer.parseInt(prod)>100){
+                            found = true;
+                            parts = line.split(";");
+                            if (Integer.parseInt(n) > Integer.parseInt(parts[3])) {
+                                System.out.println("ERRORE: Stock insufficiente. Disponibili: " + parts[3]); 
+                                out.println(line);
+                            } else {
+                                newS = Integer.parseInt(parts[3]) - Integer.parseInt(n);
+                                out.println(parts[0] + ";" + parts[1] + ";" + parts[2] + ";" + newS);
+                                System.out.println(parts[1] + ";" + parts[2] + ";" + newS);
+                            } 
+                        } else {
+                            out.println(line);
+                        }
+                    }
+                    if (!found) {
+                        System.out.println("ERRORE: Prodotto con codice " + prod + " non trovato.");
+                    }
+                }                                 
+                catch (IOException e) {
+                    System.err.println("Error while writing: " + e.getMessage());
+                }
+            } else {
+                System.out.println("ERRORE: La quantità deve essere un numero positivo..");
             }
-            i++;
-            scanner.close();
-        } 
         } else {
-            System.out.println("No args provided");
+            System.err.println("No arguments provided");
         }
 
     }

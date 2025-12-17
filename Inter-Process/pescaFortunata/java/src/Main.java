@@ -4,6 +4,7 @@ public class Main {
             int index = Integer.parseInt(args[0]);
             Scatola<?>[] scatole = new Scatola<?>[5];
             Object oggettoVinto;
+            Carbone carbone;
             for (int i = 0; i < 5; i++) {
                 int random = (int) (Math.random() * 10);
                 if (random > -1 && random < 3) {
@@ -18,7 +19,7 @@ public class Main {
             if (oggettoVinto instanceof Console) {
                 System.out.println("Hai vinto: " + oggettoVinto.toString());
             } else if (oggettoVinto instanceof Carbone) {
-                Carbone carbone = (Carbone) oggettoVinto;
+                carbone = (Carbone) oggettoVinto;
                 System.out.println("Sei stato sfortunato, Hai vinto del carbone di colore " + carbone.getColore()+ " quantita': " + carbone.getQuantita() + " pezzi.");
             } else if (oggettoVinto instanceof Smartphone) {
                 System.out.println("Hai vinto: " + oggettoVinto.toString());

@@ -1,5 +1,8 @@
 /*Dovrai definire una gerarchia di classi per modellare i veicoli. Ogni veicolo dovrà avere attributi come marca, modello e prezzo.
 
+
+import java.io.Console;
+
     Classe Base Veicolo:
 
     Definisci la classe base Veicolo.

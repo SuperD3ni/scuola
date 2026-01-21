@@ -1,0 +1,25 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "build",
+			"type": "shell",
+			"command": "javac",
+			"args": [
+				"src\\*.java"
+			],
+			"group": "build"
+		},
+		{
+			"label": "run",
+			"type": "shell",
+			"command": "java",
+			"args": [
+				"-cp",
+				"src",
+				"App"
+			],
+			"group": "test"
+		}
+	]
+}

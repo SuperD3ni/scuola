@@ -1,4 +1,2 @@
-re
-gre
-ge
-gre
+apparecchio
+sigma2

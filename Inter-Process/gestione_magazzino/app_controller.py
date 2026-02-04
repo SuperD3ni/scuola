@@ -41,7 +41,7 @@ def java(prod, n):
     compile = ["javac", "-encoding", "UTF-8", "-d", "../bin", "App.java"]
     compile_process = subprocess.run(
         compile,
-        cwd=java_path,
+        cwd=java_path,00
         capture_output=True,
         text=True
     )

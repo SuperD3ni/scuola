@@ -1,0 +1,11 @@
+body{
+    background-color: beige;
+    flex-wrap: wrap;
+    display: flex;
+}
+
+.checks{
+    background-color: rgb(255, 164, 164);
+    width: 100px;
+    height: 500px;
+}

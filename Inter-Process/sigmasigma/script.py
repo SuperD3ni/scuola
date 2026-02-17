@@ -60,7 +60,6 @@ class GUI:
                 self.input.delete(0, tk.END)
     
     def gestisci_risposta(self, risposta):
-        """Gestisce il protocollo di comunicazione con Java"""
         linee = risposta.split('\n')
         self.nodi = []
         continua_trovato = False
@@ -82,7 +81,6 @@ class GUI:
             self.disegna_nodi()
     
     def step_animazione(self):
-        """Esegue uno step dell'animazione"""
         if not self.animazione_attiva:
             return
         
@@ -131,7 +129,6 @@ class GUI:
             label.pack(side=tk.LEFT, padx=5)
     
     def cm_aggiorna_nodi(self):
-        """Ricarica l'elenco dei nodi dal backend"""
         risposta = java("lista")
         if risposta:
             linee = risposta.strip().split('\n')

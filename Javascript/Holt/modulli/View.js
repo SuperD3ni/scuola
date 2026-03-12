@@ -2,59 +2,66 @@ export class GraphView {
     constructor(canvasId) {
         this.canvas = document.getElementById(canvasId);
         this.ctx = this.canvas.getContext('2d');
-        this.canvas.width = 600;
-        this.canvas.height = 500;
+        this.canvas.width = 900;
+        this.canvas.height = 620;
     }
 
     drawInitial(process, resource) {
-        const radius = 25;
-        const squareSize = 50;
-        const leftColumnX = 100;  // Posizione X per procesi
-        const rightColumnX = 400; // Posizione X per risorse
-        const startY = 80;        // Partenza verticale
-        const spacingY = 130;     // Spazio tra pezi 
+        const radius = 30;
+        const squareSize = 58;
+        const leftColumnX = 210;
+        const rightColumnX = 690;
+        const topPadding = 130;
+        const availableHeight = this.canvas.height - 220;
+        const processSpacing = process > 1 ? availableHeight / (process - 1) : 0;
+        const resourceSpacing = resource > 1 ? availableHeight / (resource - 1) : 0;
 
-//procesi
+        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+
+        this.ctx.fillStyle = '#ffffff';
+        this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+
+        this.ctx.fillStyle = '#111111';
+        this.ctx.font = '700 22px Segoe UI';
+        this.ctx.textAlign = 'left';
+        this.ctx.fillText('PROCESSI', 66, 62);
+        this.ctx.fillText('RISORSE', 556, 62);
+
         for (let i = 0; i < process; i++) {
-            const y = startY + i * spacingY;
-            
+            const y = topPadding + i * processSpacing;
+
             this.ctx.beginPath();
             this.ctx.arc(leftColumnX, y, radius, 0, Math.PI * 2);
-            this.ctx.fillStyle = '#3498db';
+            this.ctx.fillStyle = '#4a90e2';
             this.ctx.fill();
-            this.ctx.strokeStyle = '#2980b9';
+            this.ctx.strokeStyle = '#2c5f99';
             this.ctx.lineWidth = 2;
             this.ctx.stroke();
 
-//tsto
             this.ctx.fillStyle = '#ffffff';
+            this.ctx.font = '600 17px Segoe UI';
             this.ctx.textAlign = 'center';
             this.ctx.textBaseline = 'middle';
             this.ctx.fillText(`P${i + 1}`, leftColumnX, y);
         }
 
-//risorse
         for (let i = 0; i < resource; i++) {
+            const yCenter = topPadding + i * resourceSpacing;
             const x = rightColumnX - squareSize / 2;
-            const y = startY + i * spacingY - squareSize / 2;
+            const y = yCenter - squareSize / 2;
 
-
-            this.ctx.fillStyle = '#e67e22';
+            this.ctx.fillStyle = '#f2994a';
             this.ctx.fillRect(x, y, squareSize, squareSize);
-            this.ctx.strokeStyle = '#d35400';
+            this.ctx.strokeStyle = '#b06a2f';
             this.ctx.lineWidth = 2;
             this.ctx.strokeRect(x, y, squareSize, squareSize);
 
-//testo
             this.ctx.fillStyle = '#ffffff';
+            this.ctx.font = '600 17px Segoe UI';
             this.ctx.textAlign = 'center';
-            
-            this.ctx.fillText(`R${i + 1}`, rightColumnX, y + 18);
+            this.ctx.textBaseline = 'middle';
+            this.ctx.fillText(`R${i + 1}`, rightColumnX, yCenter);
         }
 
-
-        this.ctx.strokeStyle = '#000000';
-        this.ctx.lineWidth = 1;
-        this.ctx.strokeRect(5, 5, this.canvas.width - 10, this.canvas.height - 10);
     }
 }

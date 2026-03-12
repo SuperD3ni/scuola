@@ -1,10 +1,26 @@
 export class GraphModel {
-    constructor(view) {
-        this.view = view;
-        this.processes = 3;
-        this.systems = 3;
+    constructor(processes = 3, resources = 3) {
+        this.processes = processes;
+        this.resources = resources;
     }
-    drawInitial(){
-        this.view.drawInitial(this.processes, this.systems);
+
+    getInitialGraph() {
+        return {
+            processes: this.processes,
+            resources: this.resources,
+        };
+    }
+
+    setGraph(processes, resources) {
+        this.processes = 3;
+        this.resources = 3;
+
+        if (Number.isInteger(processes) && processes > 0) {
+            this.processes = processes;
+        }
+
+        if (Number.isInteger(resources) && resources > 0) {
+            this.resources = resources;
+        }
     }
 }

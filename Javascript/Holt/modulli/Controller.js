@@ -1,8 +1,15 @@
 export class GraphController {
-    constructor(model) {
+    constructor(model, view) {
         this.model = model;
+        this.view = view;
     }
-    drawInitial(){
-        this.model.drawInitial()
+
+    init() {
+        this.drawInitial();
+    }
+
+    drawInitial() {
+        const { processes, resources } = this.model.getInitialGraph();
+        this.view.drawInitial(processes, resources);
     }
 }

@@ -7,9 +7,23 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="checks">Checkssss</div>
+    <div class="checks">
+        <h1>Grafo di Holt</h1>
+        <p class="subtitle">Processi e risorse</p>
+        <div class="legend">
+            <div class="legend-item">
+                <span class="dot process-dot"></span>
+                <span>Processo</span>
+            </div>
+            <div class="legend-item">
+                <span class="dot resource-dot"></span>
+                <span>Risorsa</span>
+            </div>
+        </div>
+        <p class="hint">Visualizzazione iniziale caricata.</p>
+    </div>
     <div class="container">
-            <canvas id="holtCanvas"></canvas>
+            <canvas id="holtCanvas" aria-label="Canvas del grafo di Holt"></canvas>
     </div>
 
     <script type="module" src="main.js"></script>

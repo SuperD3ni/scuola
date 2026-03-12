@@ -9,7 +9,7 @@ export class GraphController {
     }
 
     drawInitial() {
-        const { processes, resources } = this.model.getInitialGraph();
+        const { processes, resources } = this.model.getInitialGraphSize();
         this.view.drawInitial(processes, resources);
     }
 }

@@ -4,6 +4,7 @@ export class GraphView {
         this.ctx = this.canvas.getContext('2d');
         this.canvas.width = 900;
         this.canvas.height = 620;
+        this.sidebar = document.getElementById('sidebar');
     }
 
     drawInitial(process, resource) {
@@ -26,6 +27,45 @@ export class GraphView {
         this.ctx.textAlign = 'left';
         this.ctx.fillText('PROCESSI', 66, 62);
         this.ctx.fillText('RISORSE', 556, 62);
+
+        const drawArrow = (startX, startY, endX, endY) => {
+            const arrowHeadLength = 11;
+            const arrowAngle = Math.PI / 7;
+            const angle = Math.atan2(endY - startY, endX - startX);
+
+            this.ctx.strokeStyle = '#707070';
+            this.ctx.lineWidth = 1.5;
+            this.ctx.beginPath();
+            this.ctx.moveTo(startX, startY);
+            this.ctx.lineTo(endX, endY);
+            this.ctx.stroke();
+
+            this.ctx.fillStyle = '#707070';
+            this.ctx.beginPath();
+            this.ctx.moveTo(endX, endY);
+            this.ctx.lineTo(
+                endX - arrowHeadLength * Math.cos(angle - arrowAngle),
+                endY - arrowHeadLength * Math.sin(angle - arrowAngle)
+            );
+            this.ctx.lineTo(
+                endX - arrowHeadLength * Math.cos(angle + arrowAngle),
+                endY - arrowHeadLength * Math.sin(angle + arrowAngle)
+            );
+            this.ctx.closePath();
+            this.ctx.fill();
+        };
+
+        for (let p = 0; p < process; p++) {
+            const processY = topPadding + p * processSpacing;
+
+            for (let r = 0; r < resource; r++) {
+                const resourceY = topPadding + r * resourceSpacing;
+                const startX = leftColumnX + radius;
+                const endX = rightColumnX - squareSize / 2;
+
+                drawArrow(startX, processY, endX, resourceY);
+            }
+        }
 
         for (let i = 0; i < process; i++) {
             const y = topPadding + i * processSpacing;

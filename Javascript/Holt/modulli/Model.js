@@ -4,7 +4,7 @@ export class GraphModel {
         this.resources = resources;
     }
 
-    getInitialGraph() {
+    getInitialGraphSize() {
         return {
             processes: this.processes,
             resources: this.resources,

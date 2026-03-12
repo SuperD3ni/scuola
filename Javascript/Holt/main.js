@@ -4,7 +4,7 @@ import { GraphController } from './modulli/Controller.js';
 
 document.addEventListener('DOMContentLoaded', () => {
 	const view = new GraphView('holtCanvas');
-	const model = new GraphModel(3, 3);
+	const model = new GraphModel(3, 3); 
 	const controller = new GraphController(model, view);
 
 	controller.init();

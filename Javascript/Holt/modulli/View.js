@@ -4,7 +4,7 @@ export class GraphView {
         this.ctx = this.canvas.getContext('2d');
         this.canvas.width = 900;
         this.canvas.height = 620;
-        this.sidebar = document.getElementById('sidebar');
+        this.checksDiv = document.getElementsByClassName('checks')[0];
     }
 
     drawInitial(process, resource) {
@@ -102,6 +102,23 @@ export class GraphView {
             this.ctx.textBaseline = 'middle';
             this.ctx.fillText(`R${i + 1}`, rightColumnX, yCenter);
         }
+        for (let i = 0; i < process; i++) {
+            const processCheckboxes = document.createElement('div');
+            processCheckboxes.className = 'process-checkboxes';
+            processCheckboxes.textContent = `P${i + 1}: `;
+            for (let j = 0; j < resource; j++) {
+                const checkbox = document.createElement('input');
+                checkbox.type = 'checkbox';
+                checkbox.id = `p${i + 1}r${j + 1}`;
+                checkbox.className = 'checkbox';
+                processCheckboxes.appendChild(checkbox);
+                const label = document.createElement('label');
+                label.htmlFor = checkbox.id;
+                label.textContent = `R${j + 1}`;
+                processCheckboxes.appendChild(label);
+            }
+            this.checksDiv.appendChild(processCheckboxes);
+        } 
 
     }
 }

@@ -1,5 +1,5 @@
 export class GraphView {
-    constructor(canvasId, process = 3, resource = 3) {
+    constructor(canvasId, process = 3, resource = 3, resourceCapacities = [1, 1, 1]) {
         this.canvas = document.getElementById(canvasId);
         this.ctx = this.canvas.getContext('2d');
         this.canvas.width = 900;
@@ -9,9 +9,14 @@ export class GraphView {
         this.currentArrows = [];
         this.process = process;
         this.resource = resource;
+        this.resourceCapacities = resourceCapacities;
+        this.yPositions = [];
     }
 
-    drawInitial() {
+    drawInitial(processes, resources, resourceCapacities) {
+        this.process = processes;
+        this.resource = resources;
+        this.resourceCapacities = resourceCapacities;
         this.baseArrows = [];
 
         const radius = 30;
@@ -34,10 +39,10 @@ export class GraphView {
         this.ctx.fillText('PROCESSI', 66, 62);
         this.ctx.fillText('RISORSE', 556, 62);
 
-        
 
         for (let p = 0; p < this.process; p++) {
             const processY = topPadding + p * processSpacing;
+            this.yPositions.push(processY);
 
             for (let r = 0; r < this.resource; r++) {
                 const resourceY = topPadding + r * resourceSpacing;
@@ -45,7 +50,7 @@ export class GraphView {
                 const endX = rightColumnX - squareSize / 2;
 
                 this.drawArrow(startX, processY, endX, resourceY);
-                this.baseArrows.push({ startX, startY: processY, endX, endY: resourceY });
+                this.baseArrows.push({ startX, startY: processY, endX, endY: resourceY, colour: '#707070', lineWidth: 2, arrowHeadLength: 11 });
             }
         }
 
@@ -79,10 +84,10 @@ export class GraphView {
             this.ctx.strokeRect(x, y, squareSize, squareSize);
 
             this.ctx.fillStyle = '#ffffff';
-            this.ctx.font = '600 17px Segoe UI';
+            this.ctx.font = '600 14px Segoe UI';
             this.ctx.textAlign = 'center';
             this.ctx.textBaseline = 'middle';
-            this.ctx.fillText(`R${i + 1}`, rightColumnX, yCenter);
+            this.ctx.fillText(`R${i + 1} (0/${this.resourceCapacities[i]})`, rightColumnX, yCenter);
         }
         for (let i = 0; i < this.process; i++) {
             const processCheckboxes = document.createElement('div');
@@ -139,28 +144,45 @@ export class GraphView {
         });
     }
 
-    changeArrow(processIndex, resourceIndex, add = true) {
+    changeGraph(processIndex, resourceIndex, capacityUsed, overCapacity = false, add = true) {
         const arrowIndex = (processIndex - 1) * this.resource + (resourceIndex - 1);
+        this.baseArrows[arrowIndex].colour = overCapacity ? '#ff0000' : '#707070';
         const arrow = this.baseArrows[arrowIndex];
+        this.changeResourcesCapacity(resourceIndex, capacityUsed);
         if (add === true) {
             console.log(arrow);
             this.currentArrows.push(arrow);
-            this.drawArrow(arrow.startX, arrow.startY, arrow.endX, arrow.endY, '#707070', 4, 14);
+            this.drawArrow(arrow.startX, arrow.startY, arrow.endX, arrow.endY, arrow.colour, 4, 14);
         } else {
             console.log(arrow);
             const index = this.currentArrows.indexOf(arrow);
             if (index > -1) {
                 this.currentArrows.splice(index, 1);
                 this.hideArrows();
-                this.drawArrows('#707070');
-                
+                this.drawArrows();
             }
         }
     }
 
-    drawArrows(colour = '#707070') {
+    drawArrows() {
         this.currentArrows.forEach(arrow => {
-            this.drawArrow(arrow.startX, arrow.startY, arrow.endX, arrow.endY, colour, 4, 14);
+            this.drawArrow(arrow.startX, arrow.startY, arrow.endX, arrow.endY, arrow.colour, 4, 14);
         });
+    }
+
+    changeResourcesCapacity(processIndex, newQuantity) {
+            const resourceY = this.yPositions[processIndex - 1];
+            const x = 690 - 58 / 2;
+            const y = resourceY - 58 / 2;
+            this.ctx.fillStyle = '#f2994a';
+            this.ctx.fillRect(x, y, 58, 58);
+            this.ctx.strokeStyle = '#b06a2f';
+            this.ctx.lineWidth = 2;
+            this.ctx.strokeRect(x, y, 58, 58);
+            this.ctx.fillStyle = '#ffffff';
+            this.ctx.font = '600 14px Segoe UI';
+            this.ctx.textAlign = 'center';
+            this.ctx.textBaseline = 'middle';
+            this.ctx.fillText(`R${processIndex} (${newQuantity}/${this.resourceCapacities[processIndex - 1]})`, 690, resourceY);
     }
 }

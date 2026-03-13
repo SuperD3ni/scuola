@@ -5,13 +5,14 @@ export class GraphView {
         this.canvas.width = 900;
         this.canvas.height = 620;
         this.checksDiv = document.getElementsByClassName('checks')[0];
-        this.arrows = [];
+        this.baseArrows = [];
+        this.currentArrows = [];
         this.process = process;
         this.resource = resource;
     }
 
     drawInitial() {
-        this.arrows = [];
+        this.baseArrows = [];
 
         const radius = 30;
         const squareSize = 58;
@@ -44,7 +45,7 @@ export class GraphView {
                 const endX = rightColumnX - squareSize / 2;
 
                 this.drawArrow(startX, processY, endX, resourceY);
-                this.arrows.push({ startX, startY: processY, endX, endY: resourceY });
+                this.baseArrows.push({ startX, startY: processY, endX, endY: resourceY });
             }
         }
 
@@ -90,7 +91,7 @@ export class GraphView {
             for (let j = 0; j < this.resource; j++) {
                 const checkbox = document.createElement('input');
                 checkbox.type = 'checkbox';
-                checkbox.id = `p${i + 1}r${j + 1}`;
+                checkbox.id = `${i + 1}-${j + 1}`;
                 checkbox.className = 'checkbox';
                 processCheckboxes.appendChild(checkbox);
                 const label = document.createElement('label');
@@ -101,6 +102,7 @@ export class GraphView {
             this.checksDiv.appendChild(processCheckboxes);
         } 
         this.hideArrows();
+        console.log(this.yPositions);
     }
 
     drawArrow(startX, startY, endX, endY, colour = '#707070', lineWidth = 2, arrowHeadLength = 11) {
@@ -132,8 +134,33 @@ export class GraphView {
     }
 
     hideArrows() {
-        this.arrows.forEach(arrow => {
+        this.baseArrows.forEach(arrow => {
             this.drawArrow(arrow.startX, arrow.startY, arrow.endX, arrow.endY, '#ffffff', 6, 16);
+        });
+    }
+
+    changeArrow(processIndex, resourceIndex, add = true) {
+        const arrowIndex = (processIndex - 1) * this.resource + (resourceIndex - 1);
+        const arrow = this.baseArrows[arrowIndex];
+        if (add === true) {
+            console.log(arrow);
+            this.currentArrows.push(arrow);
+            this.drawArrow(arrow.startX, arrow.startY, arrow.endX, arrow.endY, '#707070', 4, 14);
+        } else {
+            console.log(arrow);
+            const index = this.currentArrows.indexOf(arrow);
+            if (index > -1) {
+                this.currentArrows.splice(index, 1);
+                this.hideArrows();
+                this.drawArrows('#707070');
+                
+            }
+        }
+    }
+
+    drawArrows(colour = '#707070') {
+        this.currentArrows.forEach(arrow => {
+            this.drawArrow(arrow.startX, arrow.startY, arrow.endX, arrow.endY, colour, 4, 14);
         });
     }
 }

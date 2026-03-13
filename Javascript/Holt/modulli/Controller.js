@@ -8,8 +8,17 @@ export class GraphController {
         this.drawInitial();
         const checkboxes = document.getElementsByClassName('checkbox');
         Array.from(checkboxes).forEach(checkbox => {
-            checkbox.addEventListener('change', () => {
-            });
+            checkbox.addEventListener('change', (event) => {;
+                const toDraw = this.model.checked(event);
+                if (toDraw && toDraw[2]) {
+                    this.view.changeArrow(toDraw[0], toDraw[1]);
+                } else if (toDraw && !toDraw[2]) {
+                    console.log('Checkbox unchecked');
+                    this.view.changeArrow(toDraw[0], toDraw[1], false);
+                } else {
+                    console.error('Invalid checkbox event data:', toDraw);
+                }
+            })
         });
     }
 

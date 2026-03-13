@@ -23,4 +23,15 @@ export class GraphModel {
             this.resources = resources;
         }
     }
+
+    checked(event) {
+        const checkbox = event.target;
+        const [processIndex, resourceIndex] = checkbox.id.split('-');
+        console.log(`Checkbox at Process ${processIndex}, Resource ${resourceIndex} changed.`);
+        if (checkbox.checked) {
+            return [processIndex, resourceIndex, true];
+        } else {
+            return [processIndex, resourceIndex, false];
+        }
+    }
 }

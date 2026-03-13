@@ -1,27 +1,24 @@
 export class GraphModel {
     constructor(processes = 3, resources = 3) {
-        this.processes = processes;
-        this.resources = resources;
+        this.processes = {
+            quantity: processes,
+        }
+        this.resources = {
+            quantity: resources,
+            capacity: Math.floor(Math.random() * 3) + 1 // random number between 1 and 3
+        }
     }
 
     getInitialGraphSize() {
         return {
-            processes: this.processes,
-            resources: this.resources,
+            processes: this.processes.quantity,
+            resources: this.resources.quantity,
         };
     }
 
     setGraph(processes, resources) {
-        this.processes = 3;
-        this.resources = 3;
-
-        if (Number.isInteger(processes) && processes > 0) {
-            this.processes = processes;
-        }
-
-        if (Number.isInteger(resources) && resources > 0) {
-            this.resources = resources;
-        }
+        this.processes.quantity = processes;
+        this.resources.quantity = resources;  
     }
 
     checked(event) {

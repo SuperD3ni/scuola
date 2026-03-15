@@ -16,6 +16,13 @@ export class GraphModel {
             capacities: capacitiesList,
             used: usedList
         }
+        this.arrows = []; // matrix to track the state of each arrow (0 for no arrow(white), 1 for visible(dark grey), 2 for overcap(red))
+        for (let i = 0; i < processes; i++) {
+            this.arrows[i] = [];
+            for (let j = 0; j < resources; j++) {
+                this.arrows[i].push(0);
+            }
+        }
     }
 
     getInitialGraphSize() {
@@ -31,24 +38,56 @@ export class GraphModel {
         this.resources.quantity = resources;  
     }
 
-    checked(event) {
-        const checkbox = event.target;
-        const [processIndex, resourceIndex] = checkbox.id.split('-');
+    checked(processIndex, resourceIndex, isChecked) {
         console.log(`Checkbox at Process ${processIndex}, Resource ${resourceIndex} changed.`);
-        if (checkbox.checked) {
+        if (isChecked) {
             this.resources.used[resourceIndex - 1]++;
             if (this.resources.used[resourceIndex - 1] > this.resources.capacities[resourceIndex - 1]) {
-                return [processIndex, resourceIndex, this.resources.used[resourceIndex - 1], true, true];
+                this.arrows[processIndex - 1][resourceIndex - 1] = 2; // over capacity
+            } else {
+                this.arrows[processIndex - 1][resourceIndex - 1] = 1; // within capacity
             }
             console.log(this.resources.used);
-            return [processIndex, resourceIndex, this.resources.used[resourceIndex - 1], false, true];
+            console.log(this.arrows);
+            return [this.arrows, this.resources.used, this.resources.capacities];
         } else {
             this.resources.used[resourceIndex - 1]--;
             console.log(this.resources.used);
-            if (this.resources.used[resourceIndex - 1] > this.resources.capacities[resourceIndex - 1]) {
-                return [processIndex, resourceIndex, this.resources.used[resourceIndex - 1], true, false];
-            }
-            return [processIndex, resourceIndex, this.resources.used[resourceIndex - 1], false, false];
+            this.arrows[processIndex - 1][resourceIndex - 1] = 0; // no arrow
+            this.changeAllArrows();
+            console.log(this.arrows);
+            return [this.arrows, this.resources.used, this.resources.capacities];
         }
     }
-}
+
+    changeAllArrows() {
+        for (let i = 0; i < this.processes.quantity; i++) {
+            for (let j = 0; j < this.resources.quantity; j++) {
+                if (this.arrows[i][j] === 1 && this.resources.used[j] > this.resources.capacities[j]) {
+                    this.arrows[i][j] = 2; // change to over capacity
+                } else if (this.arrows[i][j] === 2 && this.resources.used[j] <= this.resources.capacities[j]) {
+                    this.arrows[i][j] = 1; // change to within capacity
+                }
+            }
+        }
+
+        // keep as many arrows gray as capacity allows.
+        for (let j = 0; j < this.resources.quantity; j++) {
+            if (this.resources.used[j] > this.resources.capacities[j]) {
+                let grayCount = 0;
+                for (let i = 0; i < this.processes.quantity; i++) {
+                    if (this.arrows[i][j] === 1) {
+                        grayCount++;
+                    }
+                }
+
+                for (let i = 0; i < this.processes.quantity && grayCount < this.resources.capacities[j]; i++) {
+                    if (this.arrows[i][j] === 2) {
+                        this.arrows[i][j] = 1;
+                        grayCount++;
+                    }
+                }
+            }
+        }
+    }
+}7

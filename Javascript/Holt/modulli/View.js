@@ -1,15 +1,13 @@
 export class GraphView {
-    constructor(canvasId, process = 3, resource = 3, resourceCapacities = [1, 1, 1]) {
+    constructor(canvasId, process = 3, resource = 3) {
         this.canvas = document.getElementById(canvasId);
         this.ctx = this.canvas.getContext('2d');
         this.canvas.width = 900;
         this.canvas.height = 620;
         this.checksDiv = document.getElementsByClassName('checks')[0];
         this.baseArrows = [];
-        this.currentArrows = [];
         this.process = process;
         this.resource = resource;
-        this.resourceCapacities = resourceCapacities;
         this.yPositions = [];
     }
 
@@ -144,45 +142,54 @@ export class GraphView {
         });
     }
 
-    changeGraph(processIndex, resourceIndex, capacityUsed, overCapacity = false, add = true) {
-        const arrowIndex = (processIndex - 1) * this.resource + (resourceIndex - 1);
-        this.baseArrows[arrowIndex].colour = overCapacity ? '#ff0000' : '#707070';
-        const arrow = this.baseArrows[arrowIndex];
-        this.changeResourcesCapacity(resourceIndex, capacityUsed);
-        if (add === true) {
-            console.log(arrow);
-            this.currentArrows.push(arrow);
-            this.drawArrow(arrow.startX, arrow.startY, arrow.endX, arrow.endY, arrow.colour, 4, 14);
-        } else {
-            console.log(arrow);
-            const index = this.currentArrows.indexOf(arrow);
-            if (index > -1) {
-                this.currentArrows.splice(index, 1);
-                this.hideArrows();
-                this.drawArrows();
-            }
-        }
-    }
-
-    drawArrows() {
-        this.currentArrows.forEach(arrow => {
-            this.drawArrow(arrow.startX, arrow.startY, arrow.endX, arrow.endY, arrow.colour, 4, 14);
+    onCheckboxChange(callback) {
+        const checkboxes = document.getElementsByClassName('checkbox');
+        Array.from(checkboxes).forEach(checkbox => {
+            checkbox.addEventListener('change', (event) => {
+                const [processIndex, resourceIndex] = event.target.id.split('-');
+                callback(processIndex, resourceIndex, event.target.checked);
+            });
         });
     }
 
-    changeResourcesCapacity(processIndex, newQuantity) {
-            const resourceY = this.yPositions[processIndex - 1];
-            const x = 690 - 58 / 2;
-            const y = resourceY - 58 / 2;
+    changeGraph(arrows, usedResources, resourceCapacities) {
+        this.hideArrows();
+        this.drawArrows(arrows);
+        this.updateResourceCapacities(usedResources, resourceCapacities);
+    }
+
+    drawArrows(arrows) {
+        arrows.forEach((row, i) => {
+            row.forEach((state, j) => {
+                const arrowIndex = i * this.resource + j;
+                const arrow = this.baseArrows[arrowIndex];
+                if (state === 1) {
+                    arrow.colour = '#707070'; // within capacity
+                } else if (state === 2) {
+                    arrow.colour = '#ff0000'; // over capacity
+                } else {
+                    return; // skip drawing if state is 0 (no arrow)
+                }
+                this.drawArrow(arrow.startX, arrow.startY, arrow.endX, arrow.endY, arrow.colour, 4, 14);
+            });
+        });
+    }
+
+    updateResourceCapacities(usedResources, resourceCapacities) {
+        for (let i = 0; i < this.resource; i++) {
+            const yCenter = this.yPositions[i];
+            const x = 690;
+            const y = yCenter;
             this.ctx.fillStyle = '#f2994a';
-            this.ctx.fillRect(x, y, 58, 58);
+            this.ctx.fillRect(x - 29, y - 29, 58, 58);
             this.ctx.strokeStyle = '#b06a2f';
             this.ctx.lineWidth = 2;
-            this.ctx.strokeRect(x, y, 58, 58);
+            this.ctx.strokeRect(x - 29, y - 29, 58, 58);
             this.ctx.fillStyle = '#ffffff';
             this.ctx.font = '600 14px Segoe UI';
             this.ctx.textAlign = 'center';
             this.ctx.textBaseline = 'middle';
-            this.ctx.fillText(`R${processIndex} (${newQuantity}/${this.resourceCapacities[processIndex - 1]})`, 690, resourceY);
+            this.ctx.fillText(`R${i + 1} (${usedResources[i]}/${resourceCapacities[i]})`, x, y);
+        }
     }
 }

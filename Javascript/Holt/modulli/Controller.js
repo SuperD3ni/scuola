@@ -6,19 +6,13 @@ export class GraphController {
 
     init() {
         this.drawInitial();
-        const checkboxes = document.getElementsByClassName('checkbox');
-        Array.from(checkboxes).forEach(checkbox => {
-            checkbox.addEventListener('change', (event) => {;
-                const toDraw = this.model.checked(event);
-                if (toDraw && toDraw[4]) {
-                    this.view.changeGraph(toDraw[0], toDraw[1], toDraw[2], toDraw[3], true);
-                } else if (toDraw && !toDraw[4]) {
-                    console.log('Checkbox unchecked');
-                    this.view.changeGraph(toDraw[0], toDraw[1], toDraw[2], toDraw[3], false);
-                } else {
-                    console.error('Invalid checkbox event data:', toDraw);
-                }
-            })
+        this.view.onCheckboxChange((processIndex, resourceIndex, isChecked) => {
+            const [arrows, usedResources, resourceCapacities] = this.model.checked(processIndex, resourceIndex, isChecked);
+            if (arrows && usedResources && resourceCapacities) {
+                this.view.changeGraph(arrows, usedResources, resourceCapacities);
+            } else {
+                console.error('Invalid checkbox event data:', toDraw);
+            }
         });
     }
 

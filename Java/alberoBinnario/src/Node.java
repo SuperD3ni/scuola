@@ -3,6 +3,7 @@ public class  Node {
     Node left;
     Node right;
     Node parent;
+    Node next;
 
     public Node(char data) {
         this.data = data;
@@ -33,5 +34,11 @@ public class  Node {
     }
     public void setParent(Node parent) {
         this.parent = parent;
+    }
+    public void setNext(Node next){
+        this.next = next;
+    }
+    public Node getNext(Node next){
+        return next;
     }
 }

@@ -46,4 +46,14 @@ public class Albero {
 
         return currentNode;
     }
+
+    public void calcolo(){
+        Stack stack = new Stack();
+        calcoloRicorsivo(this.root, stack);
+    }
+    private void calcoloRicorsivo(Node currentNode, Stack stack){
+        if (currentNode == null) {
+            return;
+        }
+    }
 }

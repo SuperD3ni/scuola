@@ -6,6 +6,4 @@ document.addEventListener('DOMContentLoaded', () => {
 	const view = new GraphView('holtCanvas', 3, 3);
 	const model = new GraphModel(); 
 	const controller = new GraphController(model, view);
-
-	controller.init();
 });

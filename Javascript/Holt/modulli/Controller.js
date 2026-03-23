@@ -2,9 +2,6 @@ export class GraphController {
     constructor(model, view) {
         this.model = model;
         this.view = view;
-    }
-
-    init() {
         this.drawInitial();
         this.attachCheckboxListeners();
     }

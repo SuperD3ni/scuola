@@ -142,14 +142,8 @@ export class GraphView {
         });
     }
 
-    onCheckboxChange(callback) {
-        const checkboxes = document.getElementsByClassName('checkbox');
-        Array.from(checkboxes).forEach(checkbox => {
-            checkbox.addEventListener('change', (event) => {
-                const [processIndex, resourceIndex] = event.target.id.split('-');
-                callback(processIndex, resourceIndex, event.target.checked);
-            });
-        });
+    getCheckboxes() {
+        return Array.from(this.checksDiv.querySelectorAll('.checkbox'));
     }
 
     changeGraph(arrows, usedResources, resourceCapacities) {

@@ -1,44 +1,44 @@
-public class  Node {
-    char data;
-    Node left;
-    Node right;
-    Node parent;
-    Node next;
+public class Node<T> {
+    T data;
+    Node<T> left;
+    Node<T> right;
+    Node<T> parent;
+    Node<T> next;
 
-    public Node(char data) {
+    public Node(T data) {
         this.data = data;
         this.left = null;
         this.right = null;
         this.parent = null;
     }
-    public char getData() {
+    public T getData() {
         return data;
     }
-    public void setData(char data) {
+    public void setData(T data) {
         this.data = data;
     }
-    public Node getLeft() {
+    public Node<T> getLeft() {
         return left;
     }
-    public void setLeft(Node left) {
+    public void setLeft(Node<T> left) {
         this.left = left;
     }
-    public Node getRight() {
+    public Node<T> getRight() {
         return right;
     }
-    public void setRight(Node right) {
+    public void setRight(Node<T> right) {
         this.right = right;
     }
-    public Node getParent() {
+    public Node<T> getParent() {
         return parent;
     }
-    public void setParent(Node parent) {
+    public void setParent(Node<T> parent) {
         this.parent = parent;
     }
-    public void setNext(Node next){
+    public void setNext(Node<T> next){
         this.next = next;
     }
-    public Node getNext(Node next){
-        return next;
+    public Node<T> getNext(){
+        return this.next;
     }
 }

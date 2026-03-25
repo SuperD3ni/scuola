@@ -1,27 +1,23 @@
-import java.util.Scanner;
-
 public class Albero {
-    private Node root;
-    private final Scanner scanner;
+    private Node<Character> root;
+    private int parsePos;
+
     public Albero() {
         this.root = null;
-        this.scanner = new Scanner(System.in);
+        this.parsePos = 0;
     }
-    public void populateTree() {
-        this.root = recursiveInsert(null);
+
+    public void populateTree(String normalizedPolish) {
+        this.parsePos = 0;
+        this.root = recursiveInsert(normalizedPolish, null);
     }
 
     public void preorderVisita() {
         preorderVisita(this.root);
     }
 
-    private void preorderVisita(Node currentNode) {
+    private void preorderVisita(Node<Character> currentNode) {
         if (currentNode == null) {
-            return;
-        }
-
-        if (currentNode.getData() == '.') {
-            System.out.println('.');
             return;
         }
 
@@ -30,30 +26,31 @@ public class Albero {
         preorderVisita(currentNode.getRight());
     }
 
-    private Node recursiveInsert(Node parentNode) {
-        char data = scanner.next().charAt(0);
-        if (data == '.') {
-            Node nullNode = new Node('.');
-            nullNode.setParent(parentNode);
-            return nullNode;
+    private Node<Character> recursiveInsert(String normalizedPolish, Node<Character> parentNode) {
+        if (parsePos >= normalizedPolish.length()) {
+            return null;
         }
 
-        Node currentNode = new Node(data);
+        char data = normalizedPolish.charAt(parsePos++);
+        Node<Character> currentNode = new Node<Character>(data);
         currentNode.setParent(parentNode);
 
-        currentNode.setLeft(recursiveInsert(currentNode));
-        currentNode.setRight(recursiveInsert(currentNode));
-
-        return currentNode;
-    }
-
-    public void calcolo(){
-        Stack stack = new Stack();
-        calcoloRicorsivo(this.root, stack);
-    }
-    private void calcoloRicorsivo(Node currentNode, Stack stack){
-        if (currentNode == null) {
-            return;
+        if (Character.isDigit(data)) {
+            // leaf node: number, no children
+            return currentNode;
         }
+
+        if (data == '+' || data == '-' || data == '*' || data == '/') {
+            currentNode.setLeft(recursiveInsert(normalizedPolish, currentNode));
+            currentNode.setRight(recursiveInsert(normalizedPolish, currentNode));
+            return currentNode;
+        }
+
+        // invalid token: terminating branch
+        return null;
+    }
+
+    public Node<Character> getRoot() {
+        return root;
     }
 }

@@ -1,15 +1,18 @@
-public class Stack {
-    private Node head;
+public class Stack<T> {
+    private Node<T> head;
 
-    public void push(char data) {
-        Node n = new Node(data);
+    public void push(T data) {
+        Node<T> n = new Node<T>(data);
         n.setNext(head);
         head = n;
     }
 
-    public char pop() {
-        char data = head.getData();
-        head = head.getNext(head);
+    public T pop() {
+        if (head == null) {
+            throw new IllegalStateException("Stack is empty");
+        }
+        T data = head.getData();
+        head = head.getNext();
         return data;
     }
 }

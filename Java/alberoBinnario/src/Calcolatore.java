@@ -40,4 +40,9 @@ public class Calcolatore {
             stack.push(result);
         }
     }
+    public String toPolishNotation(String string) {
+        // invert the string
+        // shunting yard algorithm
+        // invert again
+    }
 }

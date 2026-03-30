@@ -90,4 +90,36 @@ export class GraphModel {
             }
         }
     }
+
+    reduce() {
+        let reduced = [];
+        for (let i = 0; i < this.processes.quantity; i++) {
+            // check if red arow
+            let hasRed = false;
+            for (let j = 0; j < this.resources.quantity; j++) {
+                if (this.arrows[i][j] === 2) {
+                    hasRed = true;
+                    break;
+                }
+            }
+
+            if (!hasRed) {
+                // reduce
+                for (let j = 0; j < this.resources.quantity; j++) {
+                    if (this.arrows[i][j] > 0) {
+                        this.resources.used[j]--;
+                        this.arrows[i][j] = 0;
+                    }
+                }
+                reduced.push(i);
+            }
+        }
+        // update
+        this.changeAllArrows();
+        const hasDeadlock = reduced.length < this.processes.quantity;
+        return {
+            reduced,
+            hasDeadlock
+        };
+    }
 }

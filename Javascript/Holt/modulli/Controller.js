@@ -4,6 +4,7 @@ export class GraphController {
         this.view = view;
         this.drawInitial();
         this.attachCheckboxListeners();
+        this.attachRiduzioneButtonListener();
     }
 
     attachCheckboxListeners() {
@@ -20,10 +21,23 @@ export class GraphController {
             });
         });
     }
-
     drawInitial() {
         const { processes, resources, resourceCapacities } = this.model.getInitialGraphSize();
         this.view.drawInitial(processes, resources, resourceCapacities);
     }
-
+    attachRiduzioneButtonListener() {
+        const button = this.view.getRiduzioneButton();
+        if (button) {
+            button.addEventListener('click', () => {
+                const result = this.model.reduce();
+                this.view.uncheckCheckboxesForProcesses(result.reduced);
+                this.view.changeGraph(this.model.arrows, this.model.resources.used, this.model.resources.capacities);
+                if (result.hasDeadlock) {
+                    console.log("riduzione con deadlock");
+                } else {
+                    console.log("riduzione no deadlock")
+                }
+            });
+        }
+    }
 }

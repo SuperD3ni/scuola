@@ -44,11 +44,11 @@ export class GraphView {
 
             for (let r = 0; r < this.resource; r++) {
                 const resourceY = topPadding + r * resourceSpacing;
-                const startX = leftColumnX + radius;
-                const endX = rightColumnX - squareSize / 2;
+                const startX = rightColumnX - squareSize / 2;
+                const endX = leftColumnX + radius + 20;
 
-                this.drawArrow(startX, processY, endX, resourceY);
-                this.baseArrows.push({ startX, startY: processY, endX, endY: resourceY, colour: '#707070', lineWidth: 2, arrowHeadLength: 11 });
+                this.drawArrow(startX, resourceY, endX, processY);
+                this.baseArrows.push({ startX, startY: resourceY, endX, endY: processY, colour: '#707070', lineWidth: 2, arrowHeadLength: 11 });
             }
         }
 
@@ -104,6 +104,11 @@ export class GraphView {
             }
             this.checksDiv.appendChild(processCheckboxes);
         } 
+        const riduzioneButton = document.createElement('button');
+        riduzioneButton.textContent = 'Riduzione';
+        riduzioneButton.id = 'riduzione-button';
+        riduzioneButton.className = 'riduzione-button';
+        this.checksDiv.appendChild(riduzioneButton);
         this.hideArrows();
         console.log(this.yPositions);
     }
@@ -146,6 +151,10 @@ export class GraphView {
         return Array.from(this.checksDiv.querySelectorAll('.checkbox'));
     }
 
+    getRiduzioneButton() {
+        return document.getElementById('riduzione-button');
+    }
+
     changeGraph(arrows, usedResources, resourceCapacities) {
         this.hideArrows();
         this.drawArrows(arrows);
@@ -185,5 +194,16 @@ export class GraphView {
             this.ctx.textBaseline = 'middle';
             this.ctx.fillText(`R${i + 1} (${usedResources[i]}/${resourceCapacities[i]})`, x, y);
         }
+    }
+
+    uncheckCheckboxesForProcesses(processIndices) {
+        processIndices.forEach(processIndex => {
+            const processNum = processIndex + 1;
+            this.getCheckboxes().forEach(checkbox => {
+                if (checkbox.id.startsWith(`${processNum}-`)) {
+                    checkbox.checked = false;
+                }
+            });
+        });
     }
 }

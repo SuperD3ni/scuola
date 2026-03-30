@@ -73,6 +73,22 @@ body {
     color: #333333;
 }
 
+.riduzione-button {
+    margin-top: 18px;
+    padding: 8px 16px;
+    background: #4a90e2;
+    color: #ffffff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+.riduzione-button:hover {
+    background: #2c5f99;
+}
+
 .container {
     overflow: hidden;
     background: #ffffff;

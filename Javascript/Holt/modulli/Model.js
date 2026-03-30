@@ -116,10 +116,15 @@ export class GraphModel {
         }
         // update
         this.changeAllArrows();
-        const hasDeadlock = reduced.length < this.processes.quantity;
         return {
-            reduced,
-            hasDeadlock
+            reduced
         };
     }
+    getGraphState() {
+            return {
+                arrows: this.arrows,
+                used: this.resources.used,
+                capacities: this.resources.capacities
+            };
+    }   
 }

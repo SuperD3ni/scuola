@@ -31,12 +31,8 @@ export class GraphController {
             button.addEventListener('click', () => {
                 const result = this.model.reduce();
                 this.view.uncheckCheckboxesForProcesses(result.reduced);
-                this.view.changeGraph(this.model.arrows, this.model.resources.used, this.model.resources.capacities);
-                if (result.hasDeadlock) {
-                    console.log("riduzione con deadlock");
-                } else {
-                    console.log("riduzione no deadlock")
-                }
+                const { arrows, used, capacities } = this.model.getGraphState();
+                this.view.changeGraph(arrows, used, capacities);
             });
         }
     }

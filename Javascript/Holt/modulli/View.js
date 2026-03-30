@@ -37,7 +37,6 @@ export class GraphView {
         this.ctx.fillText('PROCESSI', 66, 62);
         this.ctx.fillText('RISORSE', 556, 62);
 
-
         for (let p = 0; p < this.process; p++) {
             const processY = topPadding + p * processSpacing;
             this.yPositions.push(processY);
@@ -51,6 +50,8 @@ export class GraphView {
                 this.baseArrows.push({ startX, startY: resourceY, endX, endY: processY, colour: '#707070', lineWidth: 2, arrowHeadLength: 11 });
             }
         }
+
+        this.hideArrows();
 
         for (let i = 0; i < this.process; i++) {
             const y = topPadding + i * processSpacing;
@@ -70,23 +71,6 @@ export class GraphView {
             this.ctx.fillText(`P${i + 1}`, leftColumnX, y);
         }
 
-        for (let i = 0; i < this.resource; i++) {
-            const yCenter = topPadding + i * resourceSpacing;
-            const x = rightColumnX - squareSize / 2;
-            const y = yCenter - squareSize / 2;
-
-            this.ctx.fillStyle = '#f2994a';
-            this.ctx.fillRect(x, y, squareSize, squareSize);
-            this.ctx.strokeStyle = '#b06a2f';
-            this.ctx.lineWidth = 2;
-            this.ctx.strokeRect(x, y, squareSize, squareSize);
-
-            this.ctx.fillStyle = '#ffffff';
-            this.ctx.font = '600 14px Segoe UI';
-            this.ctx.textAlign = 'center';
-            this.ctx.textBaseline = 'middle';
-            this.ctx.fillText(`R${i + 1} (0/${this.resourceCapacities[i]})`, rightColumnX, yCenter);
-        }
         for (let i = 0; i < this.process; i++) {
             const processCheckboxes = document.createElement('div');
             processCheckboxes.className = 'process-checkboxes';
@@ -110,6 +94,24 @@ export class GraphView {
         riduzioneButton.className = 'riduzione-button';
         this.checksDiv.appendChild(riduzioneButton);
         this.hideArrows();
+
+        for (let i = 0; i < this.resource; i++) {
+            const yCenter = topPadding + i * resourceSpacing;
+            const x = rightColumnX - squareSize / 2;
+            const y = yCenter - squareSize / 2;
+
+            this.ctx.fillStyle = '#f2994a';
+            this.ctx.fillRect(x, y, squareSize, squareSize);
+            this.ctx.strokeStyle = '#b06a2f';
+            this.ctx.lineWidth = 2;
+            this.ctx.strokeRect(x, y, squareSize, squareSize);
+
+            this.ctx.fillStyle = '#ffffff';
+            this.ctx.font = '600 14px Segoe UI';
+            this.ctx.textAlign = 'center';
+            this.ctx.textBaseline = 'middle';
+            this.ctx.fillText(`R${i + 1} (0/${this.resourceCapacities[i]})`, rightColumnX, yCenter);
+        }
         console.log(this.yPositions);
     }
 
@@ -196,8 +198,8 @@ export class GraphView {
         }
     }
 
-    uncheckCheckboxesForProcesses(processIndices) {
-        processIndices.forEach(processIndex => {
+    uncheckCheckboxesForProcesses(processIndexes) {
+        processIndexes.forEach(processIndex => {
             const processNum = processIndex + 1;
             this.getCheckboxes().forEach(checkbox => {
                 if (checkbox.id.startsWith(`${processNum}-`)) {

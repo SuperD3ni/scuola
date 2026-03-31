@@ -36,7 +36,6 @@ public class Albero {
         currentNode.setParent(parentNode);
 
         if (Character.isDigit(data)) {
-            // leaf node: number, no children
             return currentNode;
         }
 
@@ -46,7 +45,6 @@ public class Albero {
             return currentNode;
         }
 
-        // invalid token: terminating branch
         return null;
     }
 

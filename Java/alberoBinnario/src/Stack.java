@@ -15,4 +15,15 @@ public class Stack<T> {
         head = head.getNext();
         return data;
     }
+
+    public boolean isEmpty() {
+        return head == null;
+    }
+
+    public T peek() {
+        if (head == null) {
+            throw new IllegalStateException("Stack is empty");
+        }
+        return head.getData();
+    }
 }

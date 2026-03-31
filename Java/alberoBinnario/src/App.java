@@ -1,7 +1,9 @@
 public class App {
     public static void main(String[] args) throws Exception {
         Albero albero = new Albero();
-        albero.populateTree();
+        String input = "2+2*(2+2)";
+        String normalizedPolish = new Calcolatore().toPolishNotation(input);
+        albero.populateTree(normalizedPolish);
         System.out.println("Preorder visita:");
         albero.preorderVisita();
 

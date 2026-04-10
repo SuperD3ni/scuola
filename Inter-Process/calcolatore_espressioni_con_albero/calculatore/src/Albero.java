@@ -1,5 +1,5 @@
 public class Albero {
-    private Node<Character> root;
+    private Node<String> root;
     private int parsePos;
 
     public Albero() {
@@ -7,16 +7,22 @@ public class Albero {
         this.parsePos = 0;
     }
 
-    public void populateTree(String normalizedPolish) {
+    public void populateTree(String[] normalizedPolish) {
         this.parsePos = 0;
-        this.root = recursiveInsert(normalizedPolish, null);
+        String[] tokens;
+        if (normalizedPolish == null) {
+            tokens = new String[0];
+        } else {
+            tokens = normalizedPolish;
+        }
+        this.root = recursiveInsert(tokens, null);
     }
 
     public void preorderVisita() {
         preorderVisita(this.root);
     }
 
-    private void preorderVisita(Node<Character> currentNode) {
+    private void preorderVisita(Node<String> currentNode) {
         if (currentNode == null) {
             return;
         }
@@ -26,29 +32,46 @@ public class Albero {
         preorderVisita(currentNode.getRight());
     }
 
-    private Node<Character> recursiveInsert(String normalizedPolish, Node<Character> parentNode) {
-        if (parsePos >= normalizedPolish.length()) {
+    private Node<String> recursiveInsert(String[] tokens, Node<String> parentNode) {
+        if (parsePos >= tokens.length) {
             return null;
         }
 
-        char data = normalizedPolish.charAt(parsePos++);
-        Node<Character> currentNode = new Node<Character>(data);
+        String data = tokens[parsePos++];
+        Node<String> currentNode = new Node<>(data);
         currentNode.setParent(parentNode);
 
-        if (Character.isDigit(data)) {
+        if (isNumber(data)) {
             return currentNode;
         }
 
-        if (data == '+' || data == '-' || data == '*' || data == '/') {
-            currentNode.setLeft(recursiveInsert(normalizedPolish, currentNode));
-            currentNode.setRight(recursiveInsert(normalizedPolish, currentNode));
+        if (isOperator(data)) {
+            currentNode.setLeft(recursiveInsert(tokens, currentNode));
+            currentNode.setRight(recursiveInsert(tokens, currentNode));
             return currentNode;
         }
 
-        return null;
+        throw new IllegalArgumentException("Token non valido nella notazione polacca: " + data);
     }
 
-    public Node<Character> getRoot() {
+    private boolean isOperator(String token) {
+        return "+".equals(token) || "-".equals(token) || "*".equals(token) || "/".equals(token);
+    }
+
+    private boolean isNumber(String token) {
+        if (token == null || token.isEmpty()) {
+            return false;
+        }
+
+        for (int i = 0; i < token.length(); i++) {
+            if (!Character.isDigit(token.charAt(i))) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public Node<String> getRoot() {
         return root;
     }
 }

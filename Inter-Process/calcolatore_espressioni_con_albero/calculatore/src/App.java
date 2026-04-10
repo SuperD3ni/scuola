@@ -6,7 +6,7 @@ public class App {
         } else {
             String expression = args[0];
             Calcolatore calcolatore = new Calcolatore();
-            String polishNotation = calcolatore.toPolishNotation(expression);
+            String[] polishNotation = calcolatore.toPolishNotation(expression);
 
             Albero albero = new Albero();
             albero.populateTree(polishNotation);

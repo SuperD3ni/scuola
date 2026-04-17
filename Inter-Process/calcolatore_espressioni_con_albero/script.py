@@ -45,7 +45,13 @@ class GUI:
 
 def java(espressione):
     java_path = "./calculatore/src"
-    compile = ["javac", "-encoding", "UTF-8", "-d", "../bin", "*.java"]
+    java_files = [file for file in os.listdir(java_path) if file.endswith(".java")]
+    if not java_files:
+        print("Compilation failed")
+        print("error: no .java files found in src")
+        return ""
+
+    compile = ["javac", "-encoding", "UTF-8", "-d", "../bin", *java_files]
     compile_process = subprocess.run(
         compile,
         cwd=java_path,

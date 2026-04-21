@@ -243,7 +243,9 @@ class AppNastro:
 			return
 
 		distanza_tra_pacchi = 180
-		for i, pacco in enumerate(pacchi):
+		lunghezza = pacchi.get_length()
+		for i in range(lunghezza):
+			pacco = pacchi.get_at(lunghezza - 1 - i) # al contrario perche se no testa e coda sono al contrario
 			x_centro, y_centro, _ = self._punto_su_percorso(self._anim_fase + i * distanza_tra_pacchi) # trova il punto del pacco durante l'animazione
 			larghezza = 96
 			altezza = 54
@@ -321,7 +323,7 @@ class AppNastro:
 
 		valore_indice = self.entry_indice.get().strip()
 		if valore_indice == "":
-			indice = len(self.nastro.lista_pacchi())
+			indice = self.nastro.lista_pacchi().get_length()
 		else:
 			try:
 				indice = int(valore_indice)

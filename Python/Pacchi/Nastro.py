@@ -1,10 +1,11 @@
 from Pacco import Pacco
+from ListaConcatenata import ListaConcatenata
 
 
 class Nastro:
 
 	def __init__(self):
-		self.nastro_trasportatore = []
+		self.nastro_trasportatore = ListaConcatenata()
 		self.prossimo_id = 1
 
 	def _assegna_id_se_mancante(self, pacco):
@@ -18,27 +19,18 @@ class Nastro:
 
 	def aggiungi_in_testa(self, pacco):
 		self._assegna_id_se_mancante(pacco)
-		self.nastro_trasportatore.insert(0, pacco)
+		self.nastro_trasportatore.prepend(pacco)
 
 	def rimuovi_per_id(self, id_spedizione):
-		for i, pacco in enumerate(self.nastro_trasportatore):
-			if pacco.get_id_spedizione() == id_spedizione:
-				return self.nastro_trasportatore.pop(i)
-		return None
+		return self.nastro_trasportatore.remove_first_where(
+			lambda pacco: pacco.get_id_spedizione() == id_spedizione
+		)
 
 	def reinserisci_in_indice(self, pacco, indice):
-		if indice < 0:
-			indice_sicuro = 0
-		elif indice > len(self.nastro_trasportatore):
-			indice_sicuro = len(self.nastro_trasportatore)
-		else:
-			indice_sicuro = indice
-		self.nastro_trasportatore.insert(indice_sicuro, pacco)
+		self.nastro_trasportatore.insert_at(indice, pacco)
 
 	def spedisci_testa(self):
-		if not self.nastro_trasportatore:
-			return None
-		return self.nastro_trasportatore.pop(0)
+		return self.nastro_trasportatore.pop_front()
 
 	def lista_pacchi(self):
 		return self.nastro_trasportatore

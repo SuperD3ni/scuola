@@ -24,14 +24,26 @@ class AppNastro:
 	]
 
 	def __init__(self, root):
-		# Inizializza stato applicazione, finestra e avvia UI+animazione.
+		# Inizializza stato applicazione e due finestre (controlli + canvas).
 		self.root = root
-		self.root.title("Nastro Trasportatore Pacchi")
-		self.root.geometry("1020x620")
+		self.root.title("Controlli Nastro Trasportatore")
+		self.root.geometry("520x620")
 		self.root.configure(bg="#f4f1de")
+
+		self.canvas_window = tk.Toplevel(self.root)
+		self.canvas_window.title("Canvas Nastro Trasportatore")
+		self.canvas_window.geometry("1020x360")
+		self.canvas_window.configure(bg="#f4f1de")
+
+		# Se una finestra viene chiusa, termina tutta l'app.
+		self.root.protocol("WM_DELETE_WINDOW", self._chiudi_app)
+		self.canvas_window.protocol("WM_DELETE_WINDOW", self._chiudi_app)
 
 		self.nastro = Nastro()
 		self.pacco_in_controllo = None
+		self.finestra_controllo = None
+		self.label_controllo = None
+		self.entry_indice = None
 		self._indice_colore = 0
 		self._anim_fase = 0.0
 		self._velocita_anim = 3.0
@@ -40,11 +52,83 @@ class AppNastro:
 		self._aggiorna_canvas()
 		self._anima_nastro()
 
+	def _chiudi_app(self):
+		# Chiude in modo pulito entrambe le finestre.
+		if self.finestra_controllo is not None:
+			self.finestra_controllo.destroy()
+		try:
+			self.canvas_window.destroy()
+		except tk.TclError:
+			pass
+		self.root.destroy()
+
+	def _apri_finestra_controllo(self):
+		# Apre la finestra dedicata al controllo del pacco.
+		if self.finestra_controllo is not None:
+			try:
+				self.finestra_controllo.destroy()
+			except tk.TclError:
+				pass
+
+		self.finestra_controllo = tk.Toplevel(self.root)
+		self.finestra_controllo.title("Controllo Pacco")
+		self.finestra_controllo.geometry("420x260")
+		self.finestra_controllo.configure(bg="#f4f1de")
+		self.finestra_controllo.protocol("WM_DELETE_WINDOW", self._chiudi_finestra_controllo)
+
+		titolo_controllo = tk.Label(self.finestra_controllo)
+		titolo_controllo.configure(
+			text="Controllo Pacco",
+			font=("Helvetica", 16),
+			bg="#f4f1de",
+			fg="#2f3e46",
+		)
+		titolo_controllo.pack(pady=12)
+
+		self.label_controllo = tk.Label(self.finestra_controllo)
+		self.label_controllo.configure(
+			text="Pacco in controllo: nessuno",
+			bg="#f4f1de",
+			fg="#3d405b",
+			font=("Helvetica", 10),
+		)
+		self.label_controllo.pack(pady=10)
+
+		label_indice = tk.Label(self.finestra_controllo)
+		label_indice.configure(text="Indice per reinserimento", bg="#f4f1de")
+		label_indice.pack()
+
+		self.entry_indice = tk.Entry(self.finestra_controllo)
+		self.entry_indice.config(width=20)
+		self.entry_indice.pack(pady=4)
+
+		button_reinserisci = tk.Button(self.finestra_controllo)
+		button_reinserisci.config(
+			text="Reinserisci controllato",
+			command=self.reinserisci_controllato,
+			bg="#3d405b",
+			fg="white",
+			width=25,
+		)
+		button_reinserisci.pack(pady=8)
+
+		self._aggiorna_label_controllo()
+
+	def _chiudi_finestra_controllo(self):
+		# Chiude la finestra di controllo se presente.
+		if self.finestra_controllo is None:
+			return
+		self.finestra_controllo.destroy()
+
+		self.finestra_controllo = None
+		self.label_controllo = None
+		self.entry_indice = None
+
 	def _build_ui(self):
-		# Crea e configura le cose principali dell'interfaccia.
+		# Costruisce i controlli nella finestra principale e il canvas in una finestra separata.
 		titolo = tk.Label(self.root)
 		titolo.configure(
-			text="Nastro Trasportatore",
+			text="Controlli Nastro Trasportatore",
 			font=("Helvetica", 18),
 			bg="#f4f1de",
 			fg="#2f3e46",
@@ -75,14 +159,6 @@ class AppNastro:
 		self.entry_id.config(width=20)
 		self.entry_id.pack(pady=4)
 
-		label_indice = tk.Label(self.root)
-		label_indice.configure(text="Indice per reinserimento", bg="#f4f1de")
-		label_indice.pack()
-
-		self.entry_indice = tk.Entry(self.root)
-		self.entry_indice.config(width=20)
-		self.entry_indice.pack(pady=4)
-
 		button_coda = tk.Button(self.root)
 		button_coda.config(text="Aggiungi in coda", command=self.aggiungi_coda, bg="#81b29a", width=25)
 		button_coda.pack(pady=2)
@@ -101,16 +177,6 @@ class AppNastro:
 		)
 		button_rimuovi.pack(pady=2)
 
-		button_reinserisci = tk.Button(self.root)
-		button_reinserisci.config(
-			text="Reinserisci controllato",
-			command=self.reinserisci_controllato,
-			bg="#3d405b",
-			fg="white",
-			width=25,
-		)
-		button_reinserisci.pack(pady=2)
-
 		button_spedisci = tk.Button(self.root)
 		button_spedisci.config(
 			text="Spedisci testa",
@@ -121,16 +187,16 @@ class AppNastro:
 		)
 		button_spedisci.pack(pady=2)
 
-		self.label_controllo = tk.Label(self.root)
-		self.label_controllo.configure(
-			text="Pacco in controllo: nessuno",
+		titolo_canvas = tk.Label(self.canvas_window)
+		titolo_canvas.configure(
+			text="Nastro Trasportatore",
+			font=("Helvetica", 18),
 			bg="#f4f1de",
-			fg="#3d405b",
-			font=("Helvetica", 10),
+			fg="#2f3e46",
 		)
-		self.label_controllo.pack(pady=6)
+		titolo_canvas.pack(pady=10)
 
-		self.canvas = tk.Canvas(self.root)
+		self.canvas = tk.Canvas(self.canvas_window)
 		self.canvas.config(
 			width=self.CANVAS_LARGHEZZA,
 			height=self.CANVAS_ALTEZZA,
@@ -140,7 +206,7 @@ class AppNastro:
 		)
 		self.canvas.pack(pady=6)
 
-		self.output = tk.Text(self.root)
+		self.output = tk.Text(self.canvas_window)
 		self.output.config(height=6, width=120)
 		self.output.pack(pady=8)
 		self.output.insert(tk.END, "inserisci i dati e scegli un'operazione.\n")
@@ -219,6 +285,8 @@ class AppNastro:
 
 	def _aggiorna_label_controllo(self):
 		# Mostra quale pacco e attualmente in controllo.
+		if self.label_controllo is None:
+			return
 		if self.pacco_in_controllo is None:
 			self.label_controllo.config(text="Pacco in controllo: nessuno")
 			return
@@ -312,6 +380,7 @@ class AppNastro:
 			return
 
 		self.pacco_in_controllo = pacco
+		self._apri_finestra_controllo()
 		self._scrivi_output(f"Rimosso per controllo: {pacco.descrizione_breve()}")
 		self._aggiorna_canvas()
 
@@ -321,7 +390,9 @@ class AppNastro:
 			self._scrivi_output("non c'e nessun pacco in controllo da reinserire.")
 			return
 
-		valore_indice = self.entry_indice.get().strip()
+		valore_indice = ""
+		if self.entry_indice is not None:
+			valore_indice = self.entry_indice.get().strip()
 		if valore_indice == "":
 			indice = self.nastro.lista_pacchi().get_length()
 		else:
@@ -336,6 +407,7 @@ class AppNastro:
 			f"Reinserito pacco ID {self.pacco_in_controllo.get_id_spedizione()} all'indice {indice}."
 		)
 		self.pacco_in_controllo = None
+		self._chiudi_finestra_controllo()
 		self._aggiorna_canvas()
 
 	def spedisci_testa(self):

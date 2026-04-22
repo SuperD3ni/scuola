@@ -44,6 +44,11 @@ class AppNastro:
 		self.finestra_controllo = None
 		self.label_controllo = None
 		self.entry_indice = None
+		self.entry_controllo_nome = None
+		self.entry_controllo_indirizzo = None
+		self.entry_controllo_colore = None
+		self.label_controllo_id = None
+		self.label_dati_attuali = None
 		self._indice_colore = 0
 		self._anim_fase = 0.0
 		self._velocita_anim = 3.0
@@ -72,9 +77,8 @@ class AppNastro:
 
 		self.finestra_controllo = tk.Toplevel(self.root)
 		self.finestra_controllo.title("Controllo Pacco")
-		self.finestra_controllo.geometry("420x260")
+		self.finestra_controllo.geometry("420x470")
 		self.finestra_controllo.configure(bg="#f4f1de")
-		self.finestra_controllo.protocol("WM_DELETE_WINDOW", self._chiudi_finestra_controllo)
 
 		titolo_controllo = tk.Label(self.finestra_controllo)
 		titolo_controllo.configure(
@@ -94,6 +98,52 @@ class AppNastro:
 		)
 		self.label_controllo.pack(pady=10)
 
+		self.label_controllo_id = tk.Label(self.finestra_controllo)
+		self.label_controllo_id.configure(text="ID spedizione: -", bg="#f4f1de", fg="#3d405b")
+		self.label_controllo_id.pack(pady=2)
+
+		self.label_dati_attuali = tk.Label(self.finestra_controllo)
+		self.label_dati_attuali.configure(
+			text="Dati attuali: -",
+			bg="#f4f1de",
+			fg="#3d405b",
+			justify="left",
+		)
+		self.label_dati_attuali.pack(pady=4)
+
+		label_nome_controllo = tk.Label(self.finestra_controllo)
+		label_nome_controllo.configure(text="Nome destinatario", bg="#f4f1de")
+		label_nome_controllo.pack()
+
+		self.entry_controllo_nome = tk.Entry(self.finestra_controllo)
+		self.entry_controllo_nome.config(width=36)
+		self.entry_controllo_nome.pack(pady=2)
+
+		label_indirizzo_controllo = tk.Label(self.finestra_controllo)
+		label_indirizzo_controllo.configure(text="Indirizzo destinatario", bg="#f4f1de")
+		label_indirizzo_controllo.pack()
+
+		self.entry_controllo_indirizzo = tk.Entry(self.finestra_controllo)
+		self.entry_controllo_indirizzo.config(width=48)
+		self.entry_controllo_indirizzo.pack(pady=2)
+
+		label_colore_controllo = tk.Label(self.finestra_controllo)
+		label_colore_controllo.configure(text="Colore (hex, opzionale)", bg="#f4f1de")
+		label_colore_controllo.pack()
+
+		self.entry_controllo_colore = tk.Entry(self.finestra_controllo)
+		self.entry_controllo_colore.config(width=24)
+		self.entry_controllo_colore.pack(pady=2)
+
+		button_salva_modifiche = tk.Button(self.finestra_controllo)
+		button_salva_modifiche.config(
+			text="Salva modifiche pacco",
+			command=self.salva_modifiche_controllo,
+			bg="#81b29a",
+			width=25,
+		)
+		button_salva_modifiche.pack(pady=6)
+
 		label_indice = tk.Label(self.finestra_controllo)
 		label_indice.configure(text="Indice per reinserimento", bg="#f4f1de")
 		label_indice.pack()
@@ -112,7 +162,67 @@ class AppNastro:
 		)
 		button_reinserisci.pack(pady=8)
 
+		self._inizializza_controllo_pacco()
 		self._aggiorna_label_controllo()
+
+	def _inizializza_controllo_pacco(self):
+		# Mostra i dati correnti e lascia vuoti i campi per eventuali modifiche.
+		if self.pacco_in_controllo is None:
+			return
+		if self.entry_controllo_nome is not None:
+			self.entry_controllo_nome.delete(0, tk.END)
+		if self.entry_controllo_indirizzo is not None:
+			self.entry_controllo_indirizzo.delete(0, tk.END)
+		if self.entry_controllo_colore is not None:
+			self.entry_controllo_colore.delete(0, tk.END)
+		if self.label_dati_attuali is not None:
+			self.label_dati_attuali.config(
+				text=(
+					"Dati attuali:\n"
+					f"Nome: {self.pacco_in_controllo.get_destinatario_nome()}\n"
+					f"Indirizzo: {self.pacco_in_controllo.get_destinatario_indirizzo()}\n"
+					f"Colore: {self.pacco_in_controllo.get_colore()}"
+				)
+			)
+
+	def salva_modifiche_controllo(self):
+		# Aggiorna i dati del pacco in controllo usando i campi modificabili.
+		if self.pacco_in_controllo is None:
+			self._scrivi_output("non c'e nessun pacco in controllo.")
+			return
+
+		nuovo_nome = ""
+		nuovo_indirizzo = ""
+		nuovo_colore = ""
+		if self.entry_controllo_nome is not None:
+			nuovo_nome = self.entry_controllo_nome.get().strip()
+		if self.entry_controllo_indirizzo is not None:
+			nuovo_indirizzo = self.entry_controllo_indirizzo.get().strip()
+		if self.entry_controllo_colore is not None:
+			nuovo_colore = self.entry_controllo_colore.get().strip()
+
+		if not nuovo_nome:
+			nuovo_nome = self.pacco_in_controllo.get_destinatario_nome()
+		if not nuovo_indirizzo:
+			nuovo_indirizzo = self.pacco_in_controllo.get_destinatario_indirizzo()
+		if nuovo_colore and not nuovo_colore.startswith("#"):
+			self._scrivi_output("Errore: il colore deve iniziare con # (esempio #81b29a).")
+			return
+		if not nuovo_colore:
+			nuovo_colore = self.pacco_in_controllo.get_colore()
+
+		self.pacco_in_controllo.set_destinatario_nome(nuovo_nome)
+		self.pacco_in_controllo.set_destinatario_indirizzo(nuovo_indirizzo)
+		self.pacco_in_controllo.set_colore(nuovo_colore)
+
+		self._inizializza_controllo_pacco()
+		self._aggiorna_label_controllo()
+		self._aggiorna_canvas()
+		self._scrivi_output(
+			"Dati pacco aggiornati: "
+			f"ID {self.pacco_in_controllo.get_id_spedizione()} | "
+			f"{self.pacco_in_controllo.get_destinatario_nome()}"
+		)
 
 	def _chiudi_finestra_controllo(self):
 		# Chiude la finestra di controllo se presente.
@@ -123,6 +233,11 @@ class AppNastro:
 		self.finestra_controllo = None
 		self.label_controllo = None
 		self.entry_indice = None
+		self.entry_controllo_nome = None
+		self.entry_controllo_indirizzo = None
+		self.entry_controllo_colore = None
+		self.label_controllo_id = None
+		self.label_dati_attuali = None
 
 	def _build_ui(self):
 		# Costruisce i controlli nella finestra principale e il canvas in una finestra separata.
@@ -289,6 +404,8 @@ class AppNastro:
 			return
 		if self.pacco_in_controllo is None:
 			self.label_controllo.config(text="Pacco in controllo: nessuno")
+			if self.label_controllo_id is not None:
+				self.label_controllo_id.config(text="ID spedizione: -")
 			return
 		self.label_controllo.config(
 			text=(
@@ -297,6 +414,10 @@ class AppNastro:
 				f"{self.pacco_in_controllo.get_destinatario_nome()}"
 			)
 		)
+		if self.label_controllo_id is not None:
+			self.label_controllo_id.config(
+				text=f"ID spedizione: {self.pacco_in_controllo.get_id_spedizione()}"
+			)
 
 	def _aggiorna_canvas(self):
 		# Ridisegna sfondo e pacchi in base allo stato corrente.

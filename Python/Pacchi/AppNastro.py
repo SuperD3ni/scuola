@@ -35,10 +35,6 @@ class AppNastro:
 		self.canvas_window.geometry("1020x360")
 		self.canvas_window.configure(bg="#f4f1de")
 
-		# Se una finestra viene chiusa, termina tutta l'app.
-		self.root.protocol("WM_DELETE_WINDOW", self._chiudi_app)
-		self.canvas_window.protocol("WM_DELETE_WINDOW", self._chiudi_app)
-
 		self.nastro = Nastro()
 		self.pacco_in_controllo = None
 		self.finestra_controllo = None

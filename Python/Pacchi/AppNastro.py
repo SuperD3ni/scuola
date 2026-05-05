@@ -12,6 +12,11 @@ class AppNastro:
 		(PERCORSO_RETTANGOLARE[2] - PERCORSO_RETTANGOLARE[0])
 		+ (PERCORSO_RETTANGOLARE[3] - PERCORSO_RETTANGOLARE[1])
 	)
+	DISTANZA_TRA_PACCHI = 180
+	# Distanze fisse sul perimetro (da start = angolo top-left, senso orario)
+	PUNTO_A_DIST = 1336   # bottom center: entrata pacchi
+	PUNTO_B_DIST = 830    # lato destro superiore: zona controllo
+	PUNTO_RAMPA_DIST = 900  # lato destro inferiore: rampa uscita
 
 	COLORI_PACCHI = [
 		"#5B8E7D",
@@ -48,6 +53,9 @@ class AppNastro:
 		self._indice_colore = 0
 		self._anim_fase = 0.0
 		self._velocita_anim = 3.0
+		self._pacco_entry_fase = {}  # {id_spedizione: valore _anim_fase al momento dell'entrata}
+		self._controllo_attesa = None  # (id_spedizione, target_anim_fase) oppure None
+		self._spedizione_attesa = None  # (id_spedizione, target_anim_fase) oppure None
 
 		self._build_ui()
 		self._aggiorna_canvas()
@@ -378,8 +386,19 @@ class AppNastro:
 		# Se resta distanza, il pacco e sull'ultimo tratto: lato sinistro (verticale).
 		return x1, y2 - d, False
 
+	def _passi_fino_a(self, pos_assoluta, target_dist):
+		# Calcola quanti passi mancano prima che il pacco raggiunga target_dist sul perimetro.
+		corrente = pos_assoluta % self.LUNGHEZZA_PERCORSO
+		if corrente < target_dist:
+			return target_dist - corrente
+		return self.LUNGHEZZA_PERCORSO - corrente + target_dist
+
+	def _pos_assoluta(self, pacco_id):
+		# Posizione assoluta (cresce sempre) del pacco sul nastro.
+		return self.PUNTO_A_DIST + self._anim_fase - self._pacco_entry_fase.get(pacco_id, self._anim_fase)
+
 	def _disegna_sfondo_nastro(self):
-		# Disegna base grafica del nastro (anello esterno e interno).
+		# Disegna base grafica del nastro con marker per i punti funzionali.
 		larghezza_canvas = self.CANVAS_LARGHEZZA
 		altezza_canvas = self.CANVAS_ALTEZZA
 		x1, y1, x2, y2 = self.PERCORSO_RETTANGOLARE
@@ -388,9 +407,45 @@ class AppNastro:
 		self.canvas.create_rectangle(x1 - 20, y1 - 16, x2 + 20, y2 + 16, fill="#4a4a4a", outline="#4a4a4a")
 		self.canvas.create_rectangle(x1 + 20, y1 + 16, x2 - 20, y2 - 16, fill="#f3f3f3", outline="#f3f3f3")
 
+		xa, ya, _ = self._punto_su_percorso(self.PUNTO_A_DIST)
+		xb, yb, _ = self._punto_su_percorso(self.PUNTO_B_DIST)
+		xr, yr, _ = self._punto_su_percorso(self.PUNTO_RAMPA_DIST)
+
+		self.canvas.create_oval(xa - 7, ya - 7, xa + 7, ya + 7, fill="#2dc653", outline="white", width=2)
+		self.canvas.create_text(xa, ya + 20, text="PUNTO A\n(entrata)", fill="#2dc653", font=("Helvetica", 7, "bold"), justify="center")
+
+		self.canvas.create_oval(xb - 7, yb - 7, xb + 7, yb + 7, fill="#f4a261", outline="white", width=2)
+		self.canvas.create_text(xb - 50, yb, text="PUNTO B\n(controllo)", fill="#f4a261", font=("Helvetica", 7, "bold"), justify="center")
+
+		self.canvas.create_oval(xr - 7, yr - 7, xr + 7, yr + 7, fill="#e63946", outline="white", width=2)
+		self.canvas.create_text(xr - 50, yr, text="RAMPA\nUSCITA", fill="#e63946", font=("Helvetica", 7, "bold"), justify="center")
+
 	def _anima_nastro(self):
-		# Aggiorna fase animazione e pianifica il frame successivo.
-		self._anim_fase = (self._anim_fase + self._velocita_anim) % self.LUNGHEZZA_PERCORSO # distanza dall'inizio del primo pacco, che diventa 0 quando il primo pacco torna al punto di partenza.
+		# Aggiorna fase animazione, controlla operazioni in attesa, pianifica frame successivo.
+		self._anim_fase += self._velocita_anim
+
+		# Controlla se il pacco in attesa di controllo ha raggiunto Point B.
+		if self._controllo_attesa is not None:
+			id_att, target = self._controllo_attesa
+			if self._anim_fase >= target:
+				self._controllo_attesa = None
+				pacco = self.nastro.rimuovi_per_id(id_att)
+				if pacco is not None:
+					self._pacco_entry_fase.pop(id_att, None)
+					self.pacco_in_controllo = pacco
+					self._apri_finestra_controllo()
+					self._scrivi_output(f"Pacco ID {id_att} arrivato al controllo.")
+
+		# Controlla se il pacco in attesa di spedizione ha raggiunto la rampa.
+		if self._spedizione_attesa is not None:
+			id_att, target = self._spedizione_attesa
+			if self._anim_fase >= target:
+				self._spedizione_attesa = None
+				pacco = self.nastro.spedisci_testa()
+				if pacco is not None:
+					self._pacco_entry_fase.pop(pacco.get_id_spedizione(), None)
+					self._scrivi_output("Spedito pacco:\n" + pacco.descrizione_completa())
+
 		self._aggiorna_canvas()
 		self.root.after(60, self._anima_nastro)
 
@@ -427,11 +482,11 @@ class AppNastro:
 			self._aggiorna_label_controllo()
 			return
 
-		distanza_tra_pacchi = 180
 		lunghezza = pacchi.get_length()
 		for i in range(lunghezza):
-			pacco = pacchi.get_at(lunghezza - 1 - i) # al contrario perche se no testa e coda sono al contrario
-			x_centro, y_centro, _ = self._punto_su_percorso(self._anim_fase + i * distanza_tra_pacchi) # trova il punto del pacco durante l'animazione
+			pacco = pacchi.get_at(i)
+			pos = self._pos_assoluta(pacco.get_id_spedizione())
+			x_centro, y_centro, _ = self._punto_su_percorso(pos)
 			larghezza = 96
 			altezza = 54
 
@@ -470,6 +525,7 @@ class AppNastro:
 			return
 
 		self.nastro.aggiungi_in_coda(pacco)
+		self._pacco_entry_fase[pacco.get_id_spedizione()] = self._anim_fase  # registra il momento di entrata per calcolare la posizione visiva
 		self._scrivi_output(f"Aggiunto in coda: {pacco.descrizione_breve()}")
 		self._aggiorna_canvas()
 
@@ -479,26 +535,45 @@ class AppNastro:
 		if pacco is None:
 			return
 
+		lista = self.nastro.lista_pacchi()
+		if lista.get_length() > 0:
+			testa_id = lista.get_at(0).get_id_spedizione()
+			nuova_entry = self._pacco_entry_fase.get(testa_id, self._anim_fase) - self.DISTANZA_TRA_PACCHI  # posiziona davanti all'attuale testa
+		else:
+			nuova_entry = self._anim_fase
 		self.nastro.aggiungi_in_testa(pacco)
+		self._pacco_entry_fase[pacco.get_id_spedizione()] = nuova_entry
 		self._scrivi_output(f"Aggiunto in testa: {pacco.descrizione_breve()}")
 		self._aggiorna_canvas()
 
 	def rimuovi_per_controllo(self):
-		# Rimuove dal nastro un pacco cercandolo per ID.
+		# Segna il pacco: verra' rimosso quando raggiunge Point B.
+		if self._controllo_attesa is not None:
+			self._scrivi_output("Errore: c'e' gia' un pacco in attesa di controllo.")
+			return
 		valore_id = self.entry_id.get().strip()
 		if not valore_id.isdigit():
 			self._scrivi_output("Errore: inserisci un ID numerico valido.")
 			return
 
 		id_spedizione = int(valore_id)
-		pacco = self.nastro.rimuovi_per_id(id_spedizione)
-		if pacco is None:
+		if self.nastro.lista_pacchi().get_length() == 0:
+			self._scrivi_output("il nastro e' vuoto.")
+			return
+		pacco_trovato = None
+		for k in range(self.nastro.lista_pacchi().get_length()):
+			p = self.nastro.lista_pacchi().get_at(k)
+			if p.get_id_spedizione() == id_spedizione:
+				pacco_trovato = p
+				break
+		if pacco_trovato is None:
 			self._scrivi_output(f"nessun pacco trovato con ID {id_spedizione}.")
 			return
 
-		self.pacco_in_controllo = pacco
-		self._apri_finestra_controllo()
-		self._scrivi_output(f"Rimosso per controllo: {pacco.descrizione_breve()}")
+		pos = self._pos_assoluta(id_spedizione)
+		target = self._anim_fase + self._passi_fino_a(pos, self.PUNTO_B_DIST)  # valore di _anim_fase quando il pacco sara' a Point B
+		self._controllo_attesa = (id_spedizione, target)
+		self._scrivi_output(f"Pacco ID {id_spedizione} in arrivo a Point B per controllo...")
 		self._aggiorna_canvas()
 
 	def reinserisci_controllato(self):
@@ -520,6 +595,8 @@ class AppNastro:
 				return
 
 		self.nastro.reinserisci_in_indice(self.pacco_in_controllo, indice)
+		# Il pacco rientra sempre a Point A (entry_fase = adesso).
+		self._pacco_entry_fase[self.pacco_in_controllo.get_id_spedizione()] = self._anim_fase
 		self._scrivi_output(
 			f"Reinserito pacco ID {self.pacco_in_controllo.get_id_spedizione()} all'indice {indice}."
 		)
@@ -528,11 +605,18 @@ class AppNastro:
 		self._aggiorna_canvas()
 
 	def spedisci_testa(self):
-		# Spedisce il pacco in testa e aggiorna interfaccia.
-		pacco = self.nastro.spedisci_testa()
-		if pacco is None:
-			self._scrivi_output("il nastro e vuoto.")
+		# Segna la testa: verra' spedita quando raggiunge la rampa uscita.
+		if self._spedizione_attesa is not None:
+			self._scrivi_output("Errore: c'e' gia' un pacco in attesa di spedizione.")
+			return
+		if self.nastro.lista_pacchi().get_length() == 0:
+			self._scrivi_output("il nastro e' vuoto.")
 			return
 
-		self._scrivi_output("Spedito pacco:\n" + pacco.descrizione_completa())
+		testa = self.nastro.lista_pacchi().get_at(0)
+		id_testa = testa.get_id_spedizione()
+		pos = self._pos_assoluta(id_testa)
+		target = self._anim_fase + self._passi_fino_a(pos, self.PUNTO_RAMPA_DIST)  # valore di _anim_fase quando la testa sara' alla rampa
+		self._spedizione_attesa = (id_testa, target)
+		self._scrivi_output(f"Pacco ID {id_testa} in arrivo alla rampa uscita...")
 		self._aggiorna_canvas()

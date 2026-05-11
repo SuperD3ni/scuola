@@ -92,7 +92,7 @@ class PallinaIncrocio(threading.Thread):
             self.aggiorna_logica()
             
             elapsed = time.time() - start_time
-            time.sleep(max(0, (1/60) - elapsed))
+            time.sleep(0.01)
 
     def aggiorna_logica(self):
         prossima_x = self.x + self.dx

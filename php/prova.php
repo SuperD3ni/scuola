@@ -1,6 +1,5 @@
 <?php
 echo '<table>';
-echo '<tbody>';
 
 for ($i = 0; $i < 100; $i++) {
     if ($i % 10 == 0) {
@@ -14,6 +13,5 @@ for ($i = 0; $i < 100; $i++) {
     }
 }
 
-echo '</tbody>';
 echo '</table>';
 ?>

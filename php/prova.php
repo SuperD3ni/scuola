@@ -1,17 +1,39 @@
-<?php
-echo '<table border=1>';
+<!DOCTYPE html>
+<html lang="en">
+<head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Document</title>
+        <style>
+                table {
+                        border-collapse: collapse;
+                }
 
-for ($i = 0; $i < 100; $i++) {
-    if ($i % 10 == 0) {
-        echo "<tr>";
-    }
+                td {
+                        border: 1px solid black;
+                        padding: 10px;
+                }
+        </style>
+</head>
+<body>
 
-    echo "<td>", $i + 1, "</td>";
+        <?php
+        echo '<table>';
 
-    if ($i % 10 == 9) {
-        echo "</tr>";
-    }
-}
+                for ($i = 0; $i < 100; $i++) {
+                        if ($i % 10 == 0) {
+                                echo "<tr>";
+                        }
 
-echo '</table>';
-?>
+                        echo "<td>", $i + 1, "</td>";
+
+                        if ($i % 10 == 9) {
+                                echo "</tr>";
+                        }
+                }
+
+                echo '</table>';
+        ?>
+
+</body>
+</html>

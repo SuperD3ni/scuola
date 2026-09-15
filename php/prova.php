@@ -1,5 +1,5 @@
 <?php
-echo '<table>';
+echo '<table border=1>';
 
 for ($i = 0; $i < 100; $i++) {
     if ($i % 10 == 0) {

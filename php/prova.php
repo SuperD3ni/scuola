@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -13,26 +14,38 @@
                         border: 1px solid black;
                         padding: 10px;
                 }
+                .even {
+                    background-color: #ffffff;
+                    color: #000000
+                }
+                .odd {
+                    background-color: #000000;
+                    color: #ffffff
+                }
         </style>
 </head>
 <body>
 
         <?php
-        echo '<table>';
+            echo '<table>';
 
-                for ($i = 0; $i < 100; $i++) {
-                        if ($i % 10 == 0) {
-                                echo "<tr>";
-                        }
+            for ($i = 0; $i < 10; $i++) {
+                echo '<tr>';
+                for ($j = 0; $j < 10; $j++) {
+                    $n = ($i * 10) + $j + 1;
 
-                        echo "<td>", $i + 1, "</td>";
+                    if (($i + $j) % 2 == 0) {
+                        $class = 'even';
+                    } else {
+                        $class = 'odd';
+                    }
 
-                        if ($i % 10 == 9) {
-                                echo "</tr>";
-                        }
+                    echo "<td class='$class'>$n</td>";
                 }
+                echo '</tr>';
+            }
 
-                echo '</table>';
+            echo '</table>';
         ?>
 
 </body>

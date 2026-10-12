@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pizzeria Cozze Francesi</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <header>
+        <h1>Pizzeria Cozze Francesi</h1>
+    </header>
+    <form action="process.php" method="post">
+        <div id='pizzas'>
+            <div class='pizza'>
+                <div class="left">
+                    <div class="image">
+                        <h1>Margherita</h1>
+                        <img src="img/margherita.png"></img>
+                    </div>
+                    <div class="desc">
+                        <p>Ingredienti: pomodoro, fiordilatte, olio extravergine d'oliva, basilico<br>Prezzo: 5,50 Euro</p>
+                    </div>
+                </div>
+                <div class="right">
+                    <input type="number" name="margheritas" class="quantity" oninput="checkPizzaSelection()">
+                </div>
+            </div>
+            <div class='pizza'>
+                <div class="left">
+                    <div class="image">
+                        <h1>Marinara</h1>
+                        <img src="img/marinara.png"></img>
+                    </div>
+                    <div class="desc">
+                        <p>Ingredienti: pomodoro, aglio, olio extravergine d'oliva, origano<br>Prezzo: 4,50 Euro</p>
+                    </div>
+                </div>
+                <div class="right">
+                        <input type="number" name="marinaras" class="quantity" oninput="checkPizzaSelection()">
+                </div>
+            </div>
+            <div class='pizza'>
+                <div class="left">
+                    <div class="image">
+                        <h1>Capricciosa</h1>
+                        <img src="img/capricciosa.png"></img>
+                    </div>
+                    <div class="desc">
+                        <p>Ingredienti: pomodoro, fiordilatte, funghi, prosciutto cotto, carciofini, olive<br>Prezzo: 8 Euro</p>
+                    </div>
+                </div>
+                <div class="right">
+                        <input type="number" name="capricciosas" class="quantity" oninput="checkPizzaSelection()">
+                </div>
+            </div>
+            <div class='pizza'>
+                <div class="left">
+                    <div class="image">
+                        <h1>Quattro Stagioni</h1>
+                        <img src="img/quattrostagioni.png"></img>
+                    </div>
+                    <div class="desc">
+                        <p>Ingredienti: pomodoro, fiordilatte, funghi, prosciutto cotto, carciofini, olive<br>Prezzo: 8 Euro</p>
+                    </div>
+                </div>
+                <div class="right">
+                        <input type="number" name="quattrostagioni" class="quantity" oninput="checkPizzaSelection()">
+                </div>
+            </div>
+            <div class='pizza'>
+                <div class="left">
+                    <div class="image">
+                        <h1>Quattro Formaggi</h1>
+                        <img src="img/quattroformaggi.png"></img>
+                    </div>
+                    <div class="desc">
+                        <p>Ingredienti: fiordilatte, provola, gorgonzola, taleggio<br>Prezzo: 8 Euro</p>
+                    </div>
+                </div>
+                <div class="right">
+                        <input type="number" name="quattroformaggi" class="quantity" oninput="checkPizzaSelection()">
+                </div>
+            </div>
+            <div class='pizza'>
+                <div class="left">
+                    <div class="image">
+                        <h1>Diavola</h1>
+                        <img src="img/diavola.png"></img>
+                    </div>
+                    <div class="desc">
+                        <p>Ingredienti: pomodoro, fiordilatte, salame piccante<br>Prezzo: 8 Euro</p>
+                    </div>
+                </div>
+                <div class="right">
+                        <input type="number" name="diavolas" class="quantity" oninput="checkPizzaSelection()">
+                </div>
+            </div>
+            <div class='pizza'>
+                <div class="left">
+                    <div class="image">
+                        <h1>Napoli</h1>
+                        <img src="img/napoli.png"></img>
+                    </div>
+                    <div class="desc">
+                        <p>Ingredienti: pomodoro, fiordilatte, acciughe, olive, origano<br>Prezzo: 8 Euro</p>
+                    </div>
+                </div>
+                <div class="right">
+                        <input type="number" name="napolis" class="quantity" oninput="checkPizzaSelection()">
+                </div>
+            </div>
+            <button type="button" id="continue" onclick="change()">Continua</button>
+        </div>
+        <div id="data">
+            <label for="name">Nome</label>
+            <input type="text" id="name" name="name" required>
+            <label for="surname">Cognome</label>
+            <input type="text" id="surname" name="surname" required>
+            <label for="address">Indirizzo</label>
+            <input type="text" id="address" name="address" required>
+            <label for="time">Orario di consegna</label>
+            <input type="time" id="time" name="time" required>
+            <label for="coupon">Codice sconto</label>
+            <input type="text" id="coupon" name="coupon">
+            <input type="submit" value="Invia ordine">
+        </div>
+    </form>
+    <script>
+        const pizzaQuantityInputs = document.querySelectorAll('.quantity');
+        const continueButton = document.getElementById('continue');
+        
+        function checkPizzaSelection() {
+            pizzasValid = false;
+            for (let i = 0; i < pizzaQuantityInputs.length; i++) {
+                if (pizzaQuantityInputs[i].value > 0) {
+                    pizzasValid = true;
+                } if (pizzaQuantityInputs[i].value < 0) {
+                    pizzasValid = false;
+            }
+            
+        }
+    }
+        function change() {
+            if (!pizzasValid) {;
+                return;
+            }
+            else {
+                document.getElementById('pizzas').style.display = 'none';
+                document.getElementById('data').style.display = 'block';
+            }
+        }
+        
+    </script>
+</body>
+</html>

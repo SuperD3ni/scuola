@@ -1,0 +1,122 @@
+body {
+    font-family: 'Courier New', Courier, monospace;
+    background-color: palegoldenrod;
+    padding: 80px 10% 0% 10%;
+}
+
+header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1;
+    padding: 12px 10%;
+    color: whitesmoke;
+    background-color: rgb(80, 0, 0);
+}
+
+header h1 {
+    margin: 0;
+}
+
+#pizzas {
+    background-color: darkred;
+    color: whitesmoke;
+    padding: 1%;
+    display: block;
+}  
+
+#order-summary {
+    background-color: whitesmoke;
+    color: black;
+    padding: 1%;
+    display: block;
+}
+
+.pizza {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.image {
+    display: block;
+}
+.desc {
+    display: flex; align-items: center; gap: 1vw;
+}
+.left {
+    display: flex;
+    gap: 1vw;
+    margin-left: 3vw;
+}
+.right {
+    display: flex; align-items: center;
+    justify-content: right;
+    margin-right: 5vw;
+}
+
+input {
+    width: 2vw;
+    display: flex;
+    text-align: center;
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+#data input:not([type="submit"]) {
+    width: 100%;
+    margin-bottom: 8px;
+    text-align: left;
+}
+
+button,
+input[type="submit"] {
+    width: auto;
+    min-width: max-content;
+    padding: 8px 16px;
+    color: whitesmoke;
+    background-color: darkred;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+button:hover,
+input[type="submit"]:hover {
+    background-color: #8b0000;
+}
+
+#continue {
+    display: block;
+    margin: 16px 5vw 8px auto;
+    padding: 12px 26px;
+    color: darkred;
+    background-color: palegoldenrod;
+    border: 2px solid whitesmoke;
+    font-size: 1.1em;
+    font-weight: bold;
+}
+
+#continue:hover {
+    color: whitesmoke;
+    background-color: #8b0000;
+}
+
+img {
+    width: 14vw;
+    height: 14vw;
+}
+
+#data {
+    display: none;
+    margin-top: 1%;
+    padding: 2%;
+    background-color: whitesmoke;
+    color: black;
+}
+
+#data input[type="submit"] {
+    margin-top: 8px;
+}
